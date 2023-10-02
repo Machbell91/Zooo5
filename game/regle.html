@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LudoDés - L'Harmonie Ludique</title>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+  <!-- Liens CDN de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- HEADER -->
+      <!-- BANNER -->
+      <div class="container" class="dice1">
+        <img src="/img/regle.jpeg" alt="a dice between two men" class="dice1">
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <!-- logo et liens de navigation -->
+            <a class="navbar-brand" href="#">LudoDés</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="/index.html">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" style="font-size: larger; background-color: black; color: azure;"  href="/regle.html">Règle</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/game.html">Le Jeu du "D"</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/propos.html">À propos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/contact.html">Contact</a>
+                </li>
+                <!-- Ajoutez d'autres liens au besoin -->
+              </ul>
+            </div>
+        </div>
+    </nav>
+
+  <!-- Contenu -->
+
+  <div>
+  <main class="container">
+
+    <h1 class="Tprincipal">Règles du Jeu : "Défi des 100 Points"</h1>
+    
+    <p>Le "Défi des 100 Points" est un jeu passionnant qui oppose deux joueurs sur un même écran.Il repose sur des règles simples, mais nécessite de la stratégie et du sang-froid pour atteindre la victoire.</p> 
+    
+    <h3>1. Joueurs et Scores :</h3>
+    <ul>
+        <li>Le jeu est conçu pour 2 joueurs qui se disputent la victoire.</li>
+        <li>Chaque joueur possède deux types de scores : le score temporaire (ROUND) et le score global (GLOBAL).</li>
+    </ul>
+    
+    <h3>2. Déroulement du Jeu :</h3> 
+    <ul>
+        <li>Au début de chaque tour, le score ROUND du joueur est initialisé à 0.</li>
+        <li>Le joueur actif peut lancer un dé autant de fois qu'il le souhaite lors de son tour.</li>
+        <li>Le résultat de chaque lancer est ajouté au score ROUND du joueur en cours.</li>
+    </ul>
+    
+    <h3>3. Choix du Joueur Actif :</h3>
+    
+    <p>Pendant son tour, le joueur actif a deux choix cruciaux à tout moment :</p>
+    <ul>
+        <li><strong>Option "Hold" :</strong> Le joueur peut décider de cliquer sur l'option "Hold".Cette action a pour effet de transférer les points accumulés dans le score ROUND vers le score GLOBAL.Après avoir choisi cette option, c'est alors au tour de l'autre joueur de jouer.</li>
+        <li><strong>Lancer le Dé :</strong> Alternativement, le joueur peut choisir de lancer le dé pour tenter d'accumuler davantage de points dans le score ROUND. Cependant, il y a un risque : si le joueur obtient un "1" lors de son lancer, son score ROUND est perdu, et son tour se termine immédiatement.</li>
+    </ul>
+    
+    <h3>4. Objectif du Jeu :</h3>
+    <ul>
+        <li><u>Le premier joueur qui réussit à atteindre ou à dépasser les 100 points dans son score GLOBAL</u> remporte la partie et est couronné champion du <strong><u>"Défi des 100 Points"</u></strong>.</li>
+    </ul>
+    
+    <p>Ces règles simples créent un équilibre subtil entre la prise de risque et la prudence, exigeant des joueurs qu'ils prennent des décisions judicieuses pour maximiser leurs scores globaux tout en minimisant les pertes potentielles. Le "Défi des 100 Points" est un jeu qui promet des moments palpitants et de l'excitation à chaque lancer de dé. Qui sera le premier à atteindre les 100 points et à triompher ? La réponse repose sur vos compétences, votre chance et votre stratégie. Bonne chance !</p>
+    
+
+  </main>
+  </div>
+<!-- Footer -->
+
+<footer class="bg-dark text-white mt-5">
+  <div class="container py-4">
+      <div class="row">
+          <div class="col-lg-6 mb-3 mb-lg-0">
+              <h4>Le jeu du Dès</h4>
+              <p class="mb-0">Adresse : 6 Rue des dices, Dice City, Alabasta</p>
+              <p>Email : contact@lejeududes.com</p>
+              <p>Téléphone : +116 345 678 910</p>
+          </div>
+
+          <div class="col-lg-6">
+              <h4>Liens rapides</h4>
+              <ul class="list-unstyled">
+                  <li><a href="/index.html" class="text-white">Accueil</a></li>
+                  <li><a href="/propos.html" class="text-white">À propos</a></li>
+                  <li><a href="/contact.html" class="text-white">Contact</a></li>
+                  <!-- Ajoutez d'autres liens au besoin -->
+              </ul>
+          </div>
+      </div>
+
+      <div class="row mt-4">
+          <div class="col text-center">
+              <p class="mb-0">&copy; 2023 Le Dès. Tous droits réservés.</p>
+          </div>
+      </div>
+  </div>
+</footer>
+  <!-- JS de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

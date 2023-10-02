@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LudoDés - L'Harmonie Ludique</title>
+    <link href="/style.css" rel="stylesheet" type="text/css" />
+    <script src=”contact.js”></script>
+  <!-- Liens CDN de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+   <!-- HEADER -->
+    <!-- BANNER -->
+    <div class="container" class="dice1">
+      <img src="/img/img-6Dvy9uOeeMkcnFSY6Hknw.jpeg" alt="a dice between two men" class="dice1">
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+          <!-- logo et liens de navigation -->
+          <a class="navbar-brand" href="#">LudoDés</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" style="font-size: larger; background-color: black; color: azure;" href="/index.html">Accueil</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/regle.html">Règle</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/game.html">Le Jeu du "D"</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/propos.html">À propos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/contact.html">Contact</a>
+              </li>
+              <!-- Ajoutez d'autres liens au besoin -->
+            </ul>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Contenu -->
+
+  <main class="container">
+     <!-- Section Contact -->
+
+  <section class="container my-5 ">
+    <div class="row">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2>Contactez-nous</h2>
+        <p class="lead">
+          Avez-vous des questions, des suggestions ou souhaitez-vous en savoir plus sur nos services? N'hésitez pas à
+          nous contacter. Notre équipe est là pour vous aider et vous guider.
+        </p>
+      </div>
+
+      <div class="col-lg-6">
+        <form action="your_server_script.php" method="post">
+          <div class="mb-3">
+            <label for="contactName" class="form-label">Nom complet</label>
+            <input type="text" class="form-control" id="contactName" name="name" placeholder="TANO Ahsoka" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="contactEmail" class="form-label">Adresse e-mail</label>
+            <input type="email" class="form-control" id="contactEmail" name="email" placeholder="abcd@redmail.com" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="contactMessage" class="form-label">Votre message</label>
+            <textarea class="form-control" id="contactMessage" rows="4" name="message" placeholder="Votre texte"required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="kontakt"><a href="chrome://dino/" style="color: aliceblue;">Envoyer le message</a></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  </main>
+<!-- Footer -->
+
+<footer class="bg-dark text-white mt-5">
+  <div class="container py-4">
+      <div class="row">
+          <div class="col-lg-6 mb-3 mb-lg-0">
+              <h4>Le jeu du Dès</h4>
+              <p class="mb-0">Adresse : 6 Rue des dices, Dice City, Alabasta</p>
+              <p>Email : contact@lejeududes.com</p>
+              <p>Téléphone : +116 345 678 910</p>
+          </div>
+
+          <div class="col-lg-6">
+              <h4>Liens rapides</h4>
+              <ul class="list-unstyled">
+                  <li><a href="/index.html" class="text-white">Accueil</a></li>
+                  <li><a href="/propos.html" class="text-white">À propos</a></li>
+                  <li><a href="/contact.html" class="text-white">Contact</a></li>
+                  <!-- Ajoutez d'autres liens au besoin -->
+              </ul>
+          </div>
+      </div>
+
+      <div class="row mt-4">
+          <div class="col text-center">
+              <p class="mb-0">&copy; 2023 Le Dès. Tous droits réservés.</p>
+          </div>
+      </div>
+  </div>
+
+</footer>
+  <!-- JS de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+const myButton = document.getElementById('kontakt');
+function myFunction() {
+
+  alert('Cette fonction est pas encore en service. Mais voici un bon petit clip musical');
+  window.location.href = 'https://youtu.be/L7spCJxloLY?si=WOsATH-pG78kF4Ky';
+
+}
+myButton.addEventListener('click', myFunction);
+</script>
+
+</body>
+
+</html>

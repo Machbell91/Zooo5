@@ -1,0 +1,92 @@
+.Tprincipal{
+    display: flex;
+    justify-content: center;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;  
+    text-decoration: underline;
+}
+
+main{
+text-align: justify;
+font-weight: lighter;
+}
+.dice1{
+  width: 100%;
+  padding-bottom:1em;
+}
+h3{
+    padding-top: 0.75em;
+    padding-bottom: 0.75em; 
+    text-decoration: underline dotted;
+}
+li{
+    padding-bottom: 0.5em;
+}
+.teamsign{
+    font-style: italic;
+}
+
+:hover.nav-link{
+    color: rgb(0, 0, 0)!important; 
+  }
+  .nav-link{
+    border-radius: 20px;
+    margin-right: 2em;
+    margin-left: 2em;
+    box-shadow: -10px -10px 15px rgba(255,255,255,0.5),
+                    10px 10px 15px rgba(70,70,70,0.12);
+  }
+  
+  :hover.nav-link{
+    border-radius: 20px;
+    transform: scale(1.1);
+    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+  }
+  
+  :active.nav-link{
+  box-shadow: 
+  -10px -10px 15px rgba(255, 255, 255, 0.5),
+  10px 10px 15px rgba(70, 70, 70, 0.12),
+  inset -10px -10px 15px rgba(255, 255, 255, 0.5),
+  inset 10px 10px 15px rgba(70, 70, 70, 0.12);
+  }
+  a{
+    text-decoration: none;
+    color: rgb(29, 127, 90);
+  }
+img {
+
+        max-height : 400px;
+        width : auto;
+        object-fit: cover;
+        
+    }
+
+aside{
+    max-height: 100%;
+}
+#Game{
+    display: flex;
+    justify-content: center;
+    height: 550px;
+    width: 1000px;
+    background: radial-gradient(ellipse at top, #e66465, transparent),
+                radial-gradient(ellipse at bottom, #4d9f0c, transparent);
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
+.firstplayer{
+  background-color: whitesmoke;
+  height: 500px;
+  width: 465px;
+}
+.secondplayer{
+  background-color: white;
+  height: 500px;
+  width: 465px;
+}
+.GameDice{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
