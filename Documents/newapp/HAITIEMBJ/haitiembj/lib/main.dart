@@ -1,125 +1,262 @@
 import 'package:flutter/material.dart';
+import 'package:haitiembj/layout/header.dart'; // Assurez-vous que le chemin d'importation est correct
+import 'package:haitiembj/layout/footer.dart'; // Assurez-vous que le chemin d'importation est correct
+import 'mobilehomepage.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "HAJP",
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        // Thème de votre application
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void navigateToNarrowLayout(String lang) {
+    // Ici, vous pouvez naviguer vers NarrowLayout avec la langue sélectionnée
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) { // Changez cette valeur en fonction de la taille minimale d'un mobile
+          return MobileHomePage(onComplete: navigateToNarrowLayout);
+        } else {
+          return const WideLayout();
+        }
+      },
+    );
+  }
+}
+
+
+class WideLayout extends StatelessWidget {
+  const WideLayout({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        children: [
+          const Header(), // Utilisez votre widget Header ici
+          Expanded(
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.home, size: 50),
+                    Text('Home'),
+                    Icon(Icons.business, size: 50),
+                    Text('Business'),
+                    Icon(Icons.school, size: 50),
+                    Text('School'),
+                    Icon(Icons.settings, size: 50),
+                    Text('Settings'),
+                  ],
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const Footer(), // Utilisez votre widget Footer ici
+        ],
+      ),
+    );
+  }
+}
+
+class NarrowLayout extends StatefulWidget {
+  @override
+  _NarrowLayoutState createState() => _NarrowLayoutState();
+}
+
+class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    )..repeat();
+
+    _colorAnimation = ColorTween(
+      begin: Colors.white,
+      end: Colors.blue,
+    ).animate(_controller);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0), // increase height as needed
+        child: Column(
+          children: [
+            AppBar(
+              automaticallyImplyLeading: false, // Cela empêche l'AppBar d'afficher automatiquement le bouton de menu burger
+              backgroundColor: Color.fromARGB(255, 208, 205, 205),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded( // Utilisez un widget Expanded pour que l'image prenne toute la largeur disponible
+                    child: Container(
+                      width: 30.0, // change this to your desired width
+                      height: 30.0, // change this to your desired height
+                      child: Image.asset('assets/flaghaiti.png',), // replace with your first image asset
+                    ), // replace with your first image asset
+                  ),
+                  const Expanded( // Utilisez un widget Expanded pour que le texte prenne toute la largeur disponible
+                    flex: 2, // Donnez une valeur flex de 2 au texte pour qu'il occupe le double de l'espace disponible que les images
+                    child: Text(
+                      "AMBASSADE D'HAÏTI AU JAPON", 
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                      color: Color.fromARGB(255, 6, 18, 75), // change this to your desired color
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                  ),
+                  Expanded( // Utilisez un widget Expanded pour que l'image prenne toute la largeur disponible
+                    child: Container(
+                      width: 30.0, // change this to your desired width
+                      height: 30.0, // change this to your desired height
+                      child: Image.asset('assets/japanflag.png',), // replace with your first image asset
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AnimatedBuilder(
+              animation: _colorAnimation,
+              builder: (context, child) => Container(
+                height: 2.0,
+                color: _colorAnimation.value!,
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Stack(
+        children: <Widget>[
+          Center(child: Container(color: Colors.white)),
+          DraggableFloatingActionButton(
+            data: 'Menu',
+            child: FloatingActionButton(
+              child: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+            feedback: FloatingActionButton(
+              child: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Navigation'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.business),
+              title: const Text('Business'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.school),
+              title: const Text('School'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
+class DraggableFloatingActionButton extends StatefulWidget {
+  final Widget child;
+  final Widget feedback;
+  final Object data;
+
+  DraggableFloatingActionButton({
+    required this.child,
+    required this.feedback,
+    required this.data,
+  });
+
+  @override
+  _DraggableFloatingActionButtonState createState() =>
+      _DraggableFloatingActionButtonState();
+}
+
+class _DraggableFloatingActionButtonState
+    extends State<DraggableFloatingActionButton> {
+  final GlobalKey key = GlobalKey();
+  Offset position = Offset.zero;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      child: Draggable<Object>(
+        key: key,
+        data: widget.data,
+        childWhenDragging:
+            Container(), // Hide the original button when dragging
+        feedback: widget.feedback,
+        child: Builder( // Ajout du widget Builder ici
+          builder: (context) => FloatingActionButton(
+            child: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+        onDraggableCanceled: (velocity, offset) {
+          setState(() {
+            position = offset;
+          });
+        },
+      ),
     );
   }
 }
