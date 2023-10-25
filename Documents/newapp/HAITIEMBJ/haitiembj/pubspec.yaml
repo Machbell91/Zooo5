@@ -86,6 +86,14 @@ flutter:
   - assets/mainpics/10.jpg
   - assets/mainpics/11.jpg
   - assets/event/
+  - assets/mobilepicturehomepage/
+  - assets/mobilepicturehomepage/flagchine.png
+  - assets/mobilepicturehomepage/flaghaiti.png
+  - assets/mobilepicturehomepage/flaguk.png
+  - assets/mobilepicturehomepage/floagcoree.png
+  - assets/mobilepicturehomepage/franceflag.png
+  - assets/mobilepicturehomepage/japanflag.png
+  - assets/mobilepicturehomepage/m2.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

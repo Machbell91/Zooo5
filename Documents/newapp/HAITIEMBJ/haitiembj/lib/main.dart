@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:haitiembj/layout/header.dart'; // Assurez-vous que le chemin d'importation est correct
 import 'package:haitiembj/layout/footer.dart'; // Assurez-vous que le chemin d'importation est correct
 import 'mobilehomepage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +15,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: Locale('fr'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ht'), // Kreyol
+        Locale('fr'), // Français
+        Locale('ja'), // Japonais
+        Locale('ko'), // Coréen
+        Locale('zh'), // Chinois
+      ],
       title: "HAJP",
       theme: ThemeData(
         // Thème de votre application
