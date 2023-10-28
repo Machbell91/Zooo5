@@ -5,69 +5,210 @@ import 'package:haitiembj/layout/footer.dart'; // Assurez-vous que le chemin d'i
 import 'mobilehomepage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
-  runApp(const MyApp());
+class CustomMaterialLocalizations extends DefaultMaterialLocalizations {
+  final Locale locale;
+
+  CustomMaterialLocalizations(this.locale);
+
+  @override
+  String get moreButtonTooltip {
+    switch (locale.languageCode) {
+      case 'ht':
+        return 'Plis'; // Fournissez votre propre traduction
+      case 'ja':
+        return 'もっと'; // Fournissez votre propre traduction
+      case 'ko':
+        return '더'; // Fournissez votre propre traduction
+      case 'zh':
+        return '更多'; // Fournissez votre propre traduction
+      default:
+        return super.moreButtonTooltip;
+    }
+  }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class CustomMaterialLocalizationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {
+  const CustomMaterialLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => ['ht', 'ja', 'ko', 'zh'].contains(locale.languageCode);
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) async => CustomMaterialLocalizations(locale);
+
+  @override
+  bool shouldReload(CustomMaterialLocalizationsDelegate old) => false;
+}
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+   Locale _locale = Locale('fr', 'FR'); // I
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  void navigateToNarrowLayout(BuildContext context, String lang) {
+    Locale locale = Locale('fr', 'FR');
+    switch (lang) {
+      case 'Kreyòl':
+        locale = Locale('ht', 'HT');
+        break;
+      case 'Français':
+        locale = Locale('fr', 'FR');
+        break;
+      case 'English':
+        locale = Locale('en', 'US');
+        break;
+      case '日本語':
+        locale = Locale('ja', 'JP');
+        break;
+      case '한국어':
+        locale = Locale('ko', 'KR');
+        break;
+      case '中国语文':
+        locale = Locale('zh', 'CN');
+        break;
+    }
+    setLocale(locale);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => NarrowLayout()),
+    );
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: Locale('fr'),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ht'), // Kreyol
-        Locale('fr'), // Français
-        Locale('ja'), // Japonais
-        Locale('ko'), // Coréen
-        Locale('zh'), // Chinois
-      ],
-      title: "HAJP",
+      
       theme: ThemeData(
-        // Thème de votre application
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHomePage(),
+       routes: {
+    '/NarrowLayout': (context) => NarrowLayout(),
+    // ... other routes
+        },
+      locale: _locale,
+      localizationsDelegates: [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      AppLocalizations.delegate,
+      CustomMaterialLocalizationsDelegate()
+      ],
+      supportedLocales: [
+        const Locale('ht', 'HT'), // Kreyòl
+        const Locale('fr', 'FR'), // Français
+        const Locale('en', 'US'), // English
+        const Locale('ja', 'JP'), // 日本語
+        const Locale('ko', 'KR'), // 한국어
+        const Locale('zh', 'CN'), // 中国语文
+      ],
+      home: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 600) {
+            return MyHomePage(
+              onComplete: (lang) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WideLayout(onComplete: (lang) {  },)),
+                );
+              },
+            );
+          } else {
+            return MobileHomePage(
+              onComplete: (lang) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NarrowLayout()),
+                );
+              },
+              appContext: context,
+              setLocale: setLocale, onLanguageChanged: (int ) {  },
+            );
+          }
+        },
+      ),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key, required Null Function(dynamic lang) onComplete}) : super(key: key);
 
-  void navigateToNarrowLayout(String lang) {
-    // Ici, vous pouvez naviguer vers NarrowLayout avec la langue sélectionnée
+void navigateToNarrowLayout(BuildContext context, String lang) {
+  Locale locale = Locale('fr', 'FR'); // Valeur par défaut
+  switch (lang) {
+    case 'Kreyòl':
+      locale = Locale('ht', 'HT');
+      break;
+    case 'Français':
+      locale = Locale('fr', 'FR');
+      break;
+    case 'English':
+      locale = Locale('en', 'US');
+      break;
+    case '日本語':
+      locale = Locale('ja', 'JP');
+      break;
+    case '한국어':
+      locale = Locale('ko', 'KR');
+      break;
+    case '中国语文':
+      locale = Locale('zh', 'CN');
+      break;
   }
+  MyApp.of(context)?.setLocale(locale);
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => NarrowLayout()),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 600) { // Changez cette valeur en fonction de la taille minimale d'un mobile
-          return MobileHomePage(onComplete: navigateToNarrowLayout);
+          return MobileHomePage(
+          onComplete: (lang) => navigateToNarrowLayout(context, lang),
+          appContext: context,
+          setLocale: (locale) {
+              // Do nothing or handle locale changes if needed
+            }, onLanguageChanged: (int ) {  },         
+          );
         } else {
-          return const WideLayout();
+          return WideLayout(onComplete: (lang) {  },);
         }
       },
     );
   }
 }
 
-
 class WideLayout extends StatelessWidget {
-  const WideLayout({super.key});
+  const WideLayout({super.key, required Null Function(dynamic lang) onComplete});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
           const Header(), // Utilisez votre widget Header ici
           Expanded(
             child: Center(
@@ -92,6 +233,7 @@ class WideLayout extends StatelessWidget {
           const Footer(), // Utilisez votre widget Footer ici
         ],
       ),
+      )
     );
   }
 }
@@ -140,12 +282,12 @@ class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderSt
                       child: Image.asset('assets/flaghaiti.png',), // replace with your first image asset
                     ), // replace with your first image asset
                   ),
-                  const Expanded( // Utilisez un widget Expanded pour que le texte prenne toute la largeur disponible
+                  Expanded( // Utilisez un widget Expanded pour que le texte prenne toute la largeur disponible
                     flex: 2, // Donnez une valeur flex de 2 au texte pour qu'il occupe le double de l'espace disponible que les images
                     child: Text(
-                      "AMBASSADE D'HAÏTI AU JAPON", 
+                      AppLocalizations.of(context)?.mowbeel ?? '',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                       color: Color.fromARGB(255, 6, 18, 75), // change this to your desired color
                       fontSize: 15.0,
                       fontWeight: FontWeight.bold,
@@ -153,7 +295,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderSt
                   ),
                   Expanded( // Utilisez un widget Expanded pour que l'image prenne toute la largeur disponible
                     child: Container(
-                      width: 30.0, // change this to your desired width
+		                      width: 30.0, // change this to your desired width
                       height: 30.0, // change this to your desired height
                       child: Image.asset('assets/japanflag.png',), // replace with your first image asset
                     ),
@@ -229,6 +371,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderSt
     super.dispose();
   }
 }
+
 class DraggableFloatingActionButton extends StatefulWidget {
   final Widget child;
   final Widget feedback;
