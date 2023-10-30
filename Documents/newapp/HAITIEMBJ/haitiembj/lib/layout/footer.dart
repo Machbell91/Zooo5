@@ -17,7 +17,7 @@ class _FooterState extends State<Footer> {
         return Container(
           color: const Color.fromARGB(255, 243, 215, 243),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(5.0),
             child: SingleChildScrollView(
               scrollDirection: screenWidth < 1200 ? Axis.horizontal : Axis.vertical,
               child: ConstrainedBox(
@@ -46,7 +46,7 @@ class _FooterState extends State<Footer> {
                       child: Center(
                         child: Image.asset(
                           '/Users/matthiaspierre/Documents/newapp/finalapp/assets/footer.png',
-                          height: 180,
+                          height: 120,
                         ),
                       ),
                     ),

@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Header extends StatefulWidget {
-  const Header({Key? key}) : super(key: key);
+  final TextEditingController textController = TextEditingController();
+
+  Header({Key? key}) : super(key: key);
 
   @override
-  State<Header> createState() => _HeaderState();
+  _HeaderState createState() => _HeaderState();
 }
 
-class _HeaderState extends State<Header> {
-  final textController = TextEditingController();
+class _HeaderState extends State<Header>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? localizations =
+        AppLocalizations.of(context);
+
     return Container(
       margin: const EdgeInsets.only(
-        bottom: 20,
+        bottom: 5,
       ),
       padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 20,
+        top: 1, // Reduced from 20 to 10
+        bottom: 5,
       ),
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 255, 255, 255),
@@ -30,37 +46,50 @@ class _HeaderState extends State<Header> {
             children: [
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'Kreyol',
-                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                child: Text(
+                  localizations?.kreyol ?? '',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'Français',
-                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                child: Text(
+                  localizations?.francais ?? '',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  '日本',
-                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                child: Text(
+                  localizations?.japon ?? '',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  '한글',
-                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                child: Text(
+                  localizations?.coreen ?? '',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  '中国语文',
-                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                child: Text(
+                  localizations?.chinois ?? '',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0)),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  localizations?.anglais ?? '',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
             ],
@@ -82,54 +111,60 @@ class _HeaderState extends State<Header> {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      "AMBASSADE",
+                      localizations?.ambassade ?? '',
                       style: TextStyle(
-                        fontSize: 20.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 14.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
                       ),
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      "D'HAÏTI",
+                      localizations?.dHaiti ?? '',
                       style: TextStyle(
-                        fontSize: 20.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 14.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
                       ),
                     ),
                     const SizedBox(height: 3, width: 3),
                     Text(
-                      "AU JAPON",
+                      localizations?.auJapon ?? '',
                       style: TextStyle(
-                        fontSize: 20.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 14.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
                       ),
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      "L'union",
+                      localizations?.lUnion ?? '',
                       style: TextStyle(
-                        fontSize: 15.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 7.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Bodoni moda',
                       ),
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      "Fait",
+                      localizations?.fait ?? '',
                       style: TextStyle(
-                        fontSize: 15.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 7.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Bodoni moda',
                       ),
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      "La force",
+                      localizations?.laForce ?? '',
                       style: TextStyle(
-                        fontSize: 15.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 7.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Bodoni moda',
                       ),
@@ -143,20 +178,22 @@ class _HeaderState extends State<Header> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'HAÏTI AU JAPON',
+                      localizations?.haitiAuJapon ?? '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 22.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 11.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
                       ),
                     ),
                     const SizedBox(width: 15),
                     Text(
-                      "Ambassade d'Haïti au Japon",
+                      localizations?.ambassadeDHaitiAuJapon ?? '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 22.0 * (MediaQuery.of(context).size.width / 1200),
+                        fontSize: 11.0 *
+                            (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Roboto',
                       ),
@@ -176,11 +213,11 @@ class _HeaderState extends State<Header> {
                 child: SizedBox(
                   width: 200,
                   child: TextField(
-                    controller: textController,
                     decoration: InputDecoration(
-                      hintText: 'Rechercher',
+                      hintText: localizations?.rechercher ?? '',
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide:
+                            const BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -191,7 +228,6 @@ class _HeaderState extends State<Header> {
               ),
             ],
           ),
-
           // Animation gradient
           Padding(
             padding: const EdgeInsets.only(top: 25.0),
@@ -208,10 +244,121 @@ class _HeaderState extends State<Header> {
                 ),
               ),
             ),
-          )
+          ),
+          // Navigation
+          NavigationLinks(),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            height: 5,
+            margin: EdgeInsets.symmetric(vertical: 0.1),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Colors.white, Colors.red, Colors.white],
+                stops: [0.2, 0.5, 0.8],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
 
+class NavigationLinks extends StatefulWidget {
+  const NavigationLinks({Key? key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _NavigationLinksState();
+  }
+}
+
+class _NavigationLinksState extends State<NavigationLinks> {
+  int hoveredIndex = -1;
+
+  // Ajoutez cette liste d'éléments
+  List<String> items = [
+    'Accueil',
+    'Actualité',
+    'Ambassade',
+    'Présence',
+    'Relation',
+    'Espace Presse',
+    'Venir',
+    'Découvrir'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      padding: EdgeInsets.only(top: 5, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: items.map((String item) {
+          int index = items.indexOf(item);
+
+          return Flexible(
+            child: InkWell(
+              onTap: () {},
+              onHover: (value) {
+                setState(() {
+                  hoveredIndex = value ? index : -1;
+                });
+              },
+              child: Container(
+                width: 120,
+                margin: EdgeInsets.symmetric(horizontal: 12),
+                transform: Matrix4.identity()
+                  ..scale(hoveredIndex == index ? 1.1 : 1),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.home,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        item,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}

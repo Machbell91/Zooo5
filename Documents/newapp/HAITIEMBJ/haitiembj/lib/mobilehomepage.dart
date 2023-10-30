@@ -9,7 +9,7 @@ class MobileHomePage extends StatefulWidget {
   final Function(Locale) setLocale;
   final Function(int) onLanguageChanged;
 
-  MobileHomePage({
+  const MobileHomePage({super.key, 
     required this.onComplete,
     required this.appContext,
     required this.setLocale,
@@ -21,9 +21,8 @@ class MobileHomePage extends StatefulWidget {
 }
 
 class _MobileHomePageState extends State<MobileHomePage> {
-
-  ValueNotifier<int> _selectedLanguageNotifier = ValueNotifier<int>(0);
-  ValueNotifier<int?> _hoveredFlagNotifier = ValueNotifier<int?>(null);
+  final ValueNotifier<int> _selectedLanguageNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int?> _hoveredFlagNotifier = ValueNotifier<int?>(null);
 
   final List<String> languages = [
     'Kreyòl',
@@ -44,43 +43,40 @@ class _MobileHomePageState extends State<MobileHomePage> {
   ];
 
   late List<String> flagPaths;
-  String _randomImagePath = '';  
+  String _randomImagePath = '';
 
   @override
   void initState() {
     super.initState();
 
     flagPaths = [
-      "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/mobilepicturehomepage/flaghaiti.png",
-      "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/mobilepicturehomepage/franceflag.png",
-      "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/mobilepicturehomepage/flaguk.png",
-      "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/mobilepicturehomepage/japanflag.png", 
-      "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/mobilepicturehomepage/floagcoree.png",
-      "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/mobilepicturehomepage/flagchine.png",
+      "assets/mobilepicturehomepage/flaghaiti.png",
+      "assets/mobilepicturehomepage/franceflag.png",
+      "assets/mobilepicturehomepage/flaguk.png",
+      "assets/mobilepicturehomepage/japanflag.png",
+      "assets/mobilepicturehomepage/floagcoree.png",
+      "assets/mobilepicturehomepage/flagchine.png",
     ];
 
     final random = Random();
-    final imageNumber = random.nextInt(5) + 1;
+    final imageNumber = random.nextInt(6) + 1;
     _randomImagePath = 'assets/images/image_$imageNumber.png';
   }
 
-  void naviguerVersPageActuelle() {
+  void navigateToCurrentPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NarrowLayout()),
+      MaterialPageRoute(builder: (context) => const NarrowLayout()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-
             Image.asset(_randomImagePath),
-            
             ValueListenableBuilder<int>(
               valueListenable: _selectedLanguageNotifier,
               builder: (context, value, child) {
@@ -93,66 +89,71 @@ class _MobileHomePageState extends State<MobileHomePage> {
                     color: Colors.black,
                     letterSpacing: 0.5,
                     height: 1.5,
-                    ),
+                  ),
                 );
               },
             ),
-
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              children: List.generate(
-                languages.length,
-                (index) => MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  onEnter: (_) {
-                    setState(() {
-                      _hoveredFlagNotifier.value = index;
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      _hoveredFlagNotifier.value = null;
-                    });
-                  },
-                  child: GestureDetector(
-                    onTap: () {
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 4,
+                shrinkWrap: true,
+                children: List.generate(
+                  languages.length,
+                  (index) => MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    onEnter: (_) {
                       setState(() {
-                        _selectedLanguageNotifier.value = index;
-                        MyApp.of(context)?.setLocale(Locale(languageCodes[index]));
+                        _hoveredFlagNotifier.value = index;
                       });
-                      Future.delayed(Duration(seconds: 1), () {
-                      naviguerVersPageActuelle();
-                    });
                     },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: _hoveredFlagNotifier.value == index ? Colors.blueAccent : Colors.transparent,
+                    onExit: (_) {
+                      setState(() {
+                        _hoveredFlagNotifier.value = null;
+                      });
+                    },
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedLanguageNotifier.value = index;
+                          MyApp.of(context)?.setLocale(Locale(languageCodes[index]));
+                        });
+                        Future.delayed(const Duration(seconds: 1), () {
+                          navigateToCurrentPage();
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: _hoveredFlagNotifier.value == index ? Colors.blueAccent : Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: _hoveredFlagNotifier.value == index ? Colors.blue.withOpacity(0.3) : Colors.transparent,
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                        color: _hoveredFlagNotifier.value == index ? Colors.blue.withOpacity(0.3) : Colors.transparent,
-                      ),
-                      child: Image.asset(
-                        flagPaths[index],
-                        fit: BoxFit.contain,
-                        height: 35 / 2, 
-                        width: 35 / 2,
+                        child: Image.asset(
+                          flagPaths[index],
+                          fit: BoxFit.contain,
+                          height: 35 / 2,
+                          width: 35 / 2,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Text("© 2024 Ambassade d'Haïti au Japon, TOKYO. Tout Droit Réservé."),
-          
+            const Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "© 2024 Ambassade d'Haïti au Japon, TOKYO. Tout Droit Réservé.",
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
-
   }
-
 }
