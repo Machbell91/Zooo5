@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Header extends StatefulWidget {
+  final Function(Locale) onLanguageChanged;
   final TextEditingController textController = TextEditingController();
+  final Locale locale;
 
-  Header({Key? key}) : super(key: key);
+  Header({Key? key, required this.onLanguageChanged, required this.locale}) : super(key: key);
 
   @override
   _HeaderState createState() => _HeaderState();
 }
 
-class _HeaderState extends State<Header>
-    with SingleTickerProviderStateMixin {
+class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -25,10 +26,10 @@ class _HeaderState extends State<Header>
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? localizations =
-        AppLocalizations.of(context);
+    final AppLocalizations? localizations = AppLocalizations.of(context);
 
     return Container(
+      constraints: BoxConstraints(maxHeight: 400),
       margin: const EdgeInsets.only(
         bottom: 5,
       ),
@@ -44,16 +45,21 @@ class _HeaderState extends State<Header>
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  localizations?.kreyol ?? '',
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0)),
-                ),
+         
+            TextButton(
+              onPressed: () {
+                widget.onLanguageChanged(Locale('ht', 'HT')); // Remplacez par la langue souhaitée
+              },
+              child: Text(
+                localizations?.kreyol ?? '',
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0)),
               ),
+            ),
               TextButton(
-                onPressed: () {},
+              onPressed: () {
+                widget.onLanguageChanged(Locale('fr', 'FR')); // Remplacez par la langue souhaitée
+              },
                 child: Text(
                   localizations?.francais ?? '',
                   style: const TextStyle(
@@ -61,7 +67,9 @@ class _HeaderState extends State<Header>
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.onLanguageChanged(Locale('ja', 'JP'));
+                },
                 child: Text(
                   localizations?.japon ?? '',
                   style: const TextStyle(
@@ -69,7 +77,9 @@ class _HeaderState extends State<Header>
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.onLanguageChanged(Locale('ko', 'KR'));
+                },
                 child: Text(
                   localizations?.coreen ?? '',
                   style: const TextStyle(
@@ -77,7 +87,9 @@ class _HeaderState extends State<Header>
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                    onPressed: () {
+                      widget.onLanguageChanged(Locale('zh', 'CN'));
+                    },
                 child: Text(
                   localizations?.chinois ?? '',
                   style: const TextStyle(
@@ -85,7 +97,9 @@ class _HeaderState extends State<Header>
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.onLanguageChanged(Locale('en', 'US'));
+                },
                 child: Text(
                   localizations?.anglais ?? '',
                   style: const TextStyle(
@@ -143,7 +157,7 @@ class _HeaderState extends State<Header>
                     Text(
                       localizations?.lUnion ?? '',
                       style: TextStyle(
-                        fontSize: 7.0 *
+                        fontSize: 10.0 *
                             (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Bodoni moda',
@@ -153,7 +167,7 @@ class _HeaderState extends State<Header>
                     Text(
                       localizations?.fait ?? '',
                       style: TextStyle(
-                        fontSize: 7.0 *
+                        fontSize: 10.0 *
                             (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Bodoni moda',
@@ -163,7 +177,7 @@ class _HeaderState extends State<Header>
                     Text(
                       localizations?.laForce ?? '',
                       style: TextStyle(
-                        fontSize: 7.0 *
+                        fontSize: 10.0 *
                             (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Bodoni moda',
@@ -181,7 +195,7 @@ class _HeaderState extends State<Header>
                       localizations?.haitiAuJapon ?? '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 11.0 *
+                        fontSize: 16.0 *
                             (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
@@ -192,7 +206,7 @@ class _HeaderState extends State<Header>
                       localizations?.ambassadeDHaitiAuJapon ?? '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 11.0 *
+                        fontSize: 14.0 *
                             (MediaQuery.of(context).size.width / 1200),
                         fontWeight: FontWeight.w200,
                         fontFamily: 'Roboto',
@@ -331,7 +345,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                 ),
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 10,
+                    horizontal: 11,
                     vertical: 5,
                   ),
                   child: Column(
@@ -348,7 +362,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 12,
+                          fontSize: 14,
                         ),
                       ),
                     ],

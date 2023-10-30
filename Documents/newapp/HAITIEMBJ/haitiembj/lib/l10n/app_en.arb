@@ -1,12 +1,12 @@
 {
-  "Home": "Home",
-  "Actualite": "News",
-  "Ambassade": "Embassy",
-  "Presence": "Haitian Presence",
-  "Relation": "Bilateral Relations",
-  "EspacePresse": "Press Release",
-  "Venir": "Come to Haiti",
-  "Decouvrir": "Discover Haiti"
+  "accueil": "Home",
+  "actualite": "News",
+  "ambassade": "Embassy",
+  "presence": "Haitian Presence",
+  "relation": "Bilateral Relations",
+  "espacePresse": "Press Release",
+  "venir": "Come to Haiti",
+  "decouvrir": "Discover Haiti"
   "mowbeel": "EMBASSY OF HAITI IN JAPAN"
   "kreyol": "Creole",
   "francais": "French",
@@ -21,5 +21,5 @@
   "rechercher": "Search",
   "chinois": "Simplified Chinese",
   "coreen": "Korean",
-  "anglais": "English"
+  "anglais": "English",
 }

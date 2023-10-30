@@ -67,9 +67,17 @@ class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('fr', 'FR');
 
   void setLocale(Locale locale) {
+    print("Setting locale to: ${locale.languageCode}");
     setState(() {
       _locale = locale;
     });
+  }
+
+  void onLanguageChanged(Locale locale) {
+    print("Changement de langue vers : ${locale.languageCode}");
+    setLocale(locale);
+    // Mettez à jour l'interface utilisateur en appelant setState()
+    setState(() {});
   }
 
   void navigateToNarrowLayout(BuildContext context, String lang) {
@@ -225,8 +233,14 @@ class WideLayout extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [ 
-                Header(),
-                const Row(
+                Header(
+                  onLanguageChanged: (Locale newLocale) {
+                    MyApp.of(context)?.setLocale(newLocale);
+                    print("Changement de langue vers ${newLocale.languageCode}");
+                  },
+                  locale: Locale('fr', 'FR'), // spécifiez votre locale ici,
+                ),
+                  const Row(
                   children: [
                   ],
                 ),

@@ -1,25 +1,25 @@
 {
-  "Home": "ホーム",
-  "Actualite": "アクチュアリテ",
-  "Ambassade": "大使館",
-  "Presence": "ハイチの存在",
-  "Relation": "二国間関係",
-  "EspacePresse": "プレススペース",
-  "Venir": "ハイチへ行く",
-  "Decouvrir": "ハイチを発見する"
-  "mowbeel": "ハイチ大使館ジャパン"
-  "kreyol": "クレオール"
-  "francais": "フランス語"
-  "japon": "日本"
-  "dHaiti": "ハイチ"
-  "auJapon": "日本で"
-  "lUnion": "組合"
-  "fait": "作る"
-  "laForce": "力"
-  "haitiAuJapon": "日本のハイチ "
-  "ambassadeDHaitiAuJapon": "ハイチ大使館日本"
-  "rechercher": "検索"
-  "chinois": "簡体字中国語"
-  "coreen": "韓国語"
-  "anglais": "英語"
+  "accueil": "ホーム",
+  "actualite": "ニュース",
+  "ambassade": "大使館",
+  "presence": "ハイチ人の存在",
+  "relation": "二国間関係",
+  "espacePresse": "プレスリリース",
+  "venir": "ハイチに来る",
+  "decouvrir": "ハイチを発見する",
+  "mowbeel": "ハイチ大使館ジャパン",
+  "kreyol": "クレオール",
+  "francais": "フランス語",
+  "japon": "日本",
+  "dHaiti": "ハイチ",
+  "auJapon": "日本で",
+  "lUnion": "組合",
+  "fait": "作る",
+  "laForce": "力",
+  "haitiAuJapon": "日本のハイチ ",
+  "ambassadeDHaitiAuJapon": "ハイチ大使館日本",
+  "rechercher": "検索",
+  "chinois": "簡体字中国語",
+  "coreen": "韓国語",
+  "anglais": "英語",
 }

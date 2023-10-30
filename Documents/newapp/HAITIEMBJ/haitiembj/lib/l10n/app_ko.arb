@@ -1,25 +1,25 @@
 {
-  "Home": "홈",
-  "Actualite": "최신 소식",
-  "Ambassade": "대사관",
-  "Presence": "아이티 존재",
-  "Relation": "양국 간의 관계",
-  "EspacePresse": "보도 자료",
-  "Venir": "아이티로 오기",
-  "Decouvrir": "아이티 발견하기"
-  "mowbeel": "일본 하이티 대사관"
-  "kreyol": "크레올"
-  "francais": "프랑스어"
-  "japon": "일본"
-  "dHaiti": "아이티"
-  "auJapon": "일본에서"
-  "lUnion": "연합"
-  "fait": "만들다"
-  "laForce": "힘"
-  "haitiAuJapon": "일본의 아이티"
-  "ambassadeDHaitiAuJapon": "아이티 대사관 일본"
-  "rechercher": "찾다"
-  "chinoisSimplifie": "간체 중국어"
-  "coreen": "한국어"
-  "anglais": "영어"
+  "accueil": "홈",
+  "actualite": "뉴스",
+  "ambassade": "대사관",
+  "presence": "아이티인 존재",
+  "relation": "양국 간 관계",
+  "espacePresse": "보도 자료",
+  "venir": "아이티에 오다",
+  "decouvrir": "아이티 발견하기",
+  "mowbeel": "일본 하이티 대사관",
+  "kreyol": "크레올",
+  "francais": "프랑스어",
+  "japon": "일본",
+  "dHaiti": "아이티",
+  "auJapon": "일본에서",
+  "lUnion": "연합",
+  "fait": "만들다",
+  "laForce": "힘",
+  "haitiAuJapon": "일본의 아이티",
+  "ambassadeDHaitiAuJapon": "아이티 대사관 일본",
+  "rechercher": "찾다",
+  "chinoisSimplifie": "간체 중국어",
+  "coreen": "한국어",
+  "anglais": "영어",
 }
