@@ -4,6 +4,7 @@ import 'package:haitiembj/layout/header.dart';
 import 'package:haitiembj/layout/footer.dart';
 import 'mobilehomepage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import './layout/urganncmnt.dart';
 int selectedIndex = 0;
 
 void onSelected(int index) {
@@ -268,16 +269,11 @@ class WideLayout extends StatelessWidget {
                   children: [
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: const Center(
-                        child: Text('Your Center Content'),
-                      ),
-                    ),
-                  ],
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.topLeft, // Alignez à gauche
+                    child: Carousel(),
+                  ),
                 ),
                 const Footer(),
               ],
@@ -416,7 +412,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderSt
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
+          padding: EdgeInsets.zero,
           children: items.map((String item) {
             return ListTile(
               title: Text(item),

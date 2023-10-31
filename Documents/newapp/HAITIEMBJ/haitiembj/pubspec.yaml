@@ -46,6 +46,8 @@ dependencies:
   url_launcher: ^6.0.13 
   fluttericon: ^2.0.0
   easy_localization: ^3.0.0
+  dots_indicator: ^2.1.1
+  photo_view: ^0.14.0
 
 
 
@@ -110,6 +112,9 @@ flutter:
   - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_4.png
   - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_5.png
   - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_6.png
+  - assets/announcement/
+  - assets/announcement/annonce2.jpeg
+  - assets/announcement/Annoncepublic.jpeg
 
 
 
