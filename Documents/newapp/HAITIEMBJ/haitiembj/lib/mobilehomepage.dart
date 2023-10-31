@@ -66,12 +66,21 @@ class _MobileHomePageState extends State<MobileHomePage> {
   void navigateToCurrentPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const NarrowLayout()),
+      MaterialPageRoute(
+        builder: (context) => NarrowLayout(
+          onLanguageChanged: (locale) {
+            // Logique pour le changement de langue
+          },
+          locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -81,7 +90,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
               valueListenable: _selectedLanguageNotifier,
               builder: (context, value, child) {
                 return Text(
-                  AppLocalizations.of(context)?.mowbeel ?? '',
+                  appLocalizations?.mowbeel ?? '', // Utilisez appLocalizations ici
                   locale: Locale(languageCodes[value]),
                   style: const TextStyle(
                     fontFamily: 'Inter',

@@ -4,7 +4,6 @@ import 'package:haitiembj/layout/header.dart';
 import 'package:haitiembj/layout/footer.dart';
 import 'mobilehomepage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 int selectedIndex = 0;
 
 void onSelected(int index) {
@@ -13,6 +12,7 @@ void onSelected(int index) {
 
 class CustomMaterialLocalizations extends DefaultMaterialLocalizations {
   final Locale locale;
+  
 
   CustomMaterialLocalizations(this.locale);
 
@@ -27,6 +27,10 @@ class CustomMaterialLocalizations extends DefaultMaterialLocalizations {
         return '더'; // Provide your own translation
       case 'zh':
         return '更多'; // Provide your own translation
+      case 'fr':
+        return 'Plus'; // Provide your own translation
+      case 'en':
+        return 'More'; // Provide your own translation
       default:
         return super.moreButtonTooltip;
     }
@@ -39,7 +43,7 @@ class CustomMaterialLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      ['ht', 'ja', 'ko', 'zh'].contains(locale.languageCode);
+      ['ht', 'ja', 'ko', 'zh','fr','en'].contains(locale.languageCode);
 
   @override
   Future<MaterialLocalizations> load(Locale locale) async =>
@@ -105,9 +109,14 @@ class _MyAppState extends State<MyApp> {
     setLocale(locale);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const NarrowLayout()),
-    );
-  }
+      MaterialPageRoute(builder: (context) =>  NarrowLayout(
+      onLanguageChanged: (locale) {
+        // Logique pour le changement de langue
+      },
+      locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+    )),
+        );
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +126,12 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        '/NarrowLayout': (context) => const NarrowLayout(),
+        '/NarrowLayout': (context) =>  NarrowLayout(
+          onLanguageChanged: (locale) {
+            // Logique pour le changement de langue
+          },
+          locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+        ),
         // ... other routes
       },
       locale: _locale,
@@ -147,7 +161,12 @@ class _MyAppState extends State<MyApp> {
                 onComplete: (lang) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const NarrowLayout()),
+                    MaterialPageRoute(builder: (context) =>  NarrowLayout(
+                    onLanguageChanged: (locale) {
+                      // Logique pour le changement de langue
+                    },
+                    locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+)),
                   );
                 },
                 appContext: context,
@@ -190,7 +209,12 @@ class MyHomePage extends StatelessWidget {
     MyApp.of(context)?.setLocale(locale);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const NarrowLayout()),
+      MaterialPageRoute(builder: (context) =>  NarrowLayout(
+  onLanguageChanged: (locale) {
+    // Logique pour le changement de langue
+  },
+  locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+)),
     );
   }
 
@@ -265,17 +289,23 @@ class WideLayout extends StatelessWidget {
   }
 }
 
+
 class NarrowLayout extends StatefulWidget {
-  const NarrowLayout({super.key});
+  final Function(Locale) onLanguageChanged;
+  final Locale locale;
+
+  const NarrowLayout({Key? key, required this.onLanguageChanged, required this.locale}) : super(key: key);
 
   @override
   _NarrowLayoutState createState() => _NarrowLayoutState();
 }
 
-class _NarrowLayoutState extends State<NarrowLayout>
-    with SingleTickerProviderStateMixin {
+class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late AnimationController _controller;
   late Animation<Color?> _colorAnimation;
+
+  late List<String> items;
 
   @override
   void initState() {
@@ -293,8 +323,40 @@ class _NarrowLayoutState extends State<NarrowLayout>
   }
 
   @override
+  void didUpdateWidget(NarrowLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.locale != oldWidget.locale) {
+      // Ne rien mettre ici
+    }
+  }
+
+  Draggable<Object> draggableFloatingActionButton() {
+    return Draggable<Object>(
+      data: 'Menu',
+      childWhenDragging: Container(),
+      feedback: FloatingActionButton(
+        child: const Icon(Icons.menu),
+        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+      ),
+      child: FloatingActionButton(
+        child: const Icon(Icons.menu),
+        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+      ),
+      onDraggableCanceled: (velocity, offset) {
+        setState(() {
+          // Update the position as needed
+        });
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<String> itemKeys = ['accueil', 'actualite', 'ambassade', 'presence', 'relation', 'espacePresse', 'venir', 'decouvrir'];
+    items = itemKeys.map((key) => AppLocalizations.of(context)?.translateNavigationItem(key) ?? key).toList();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: LayoutBuilder(
@@ -349,50 +411,20 @@ class _NarrowLayoutState extends State<NarrowLayout>
       body: Stack(
         children: <Widget>[
           Center(child: Container(color: Colors.white)),
-          DraggableFloatingActionButton(
-            data: 'Menu',
-            feedback: FloatingActionButton(
-              child: const Icon(Icons.menu),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-            child: FloatingActionButton(
-              child: const Icon(Icons.menu),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
+          draggableFloatingActionButton(),
         ],
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Navigation'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.business),
-              title: const Text('Business'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.school),
-              title: const Text('School'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {},
-            ),
-          ],
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          children: items.map((String item) {
+            return ListTile(
+              title: Text(item),
+              onTap: () {
+                // Logic for handling click on Drawer link
+              },
+            );
+          }).toList(),
         ),
       ),
     );
@@ -402,50 +434,5 @@ class _NarrowLayoutState extends State<NarrowLayout>
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-}
-
-class DraggableFloatingActionButton extends StatefulWidget {
-  final Widget child;
-  final Widget feedback;
-  final Object data;
-
-  const DraggableFloatingActionButton({super.key, 
-    required this.child,
-    required this.feedback,
-    required this.data,
-  });
-
-  @override
-  _DraggableFloatingActionButtonState createState() =>
-      _DraggableFloatingActionButtonState();
-}
-
-class _DraggableFloatingActionButtonState
-    extends State<DraggableFloatingActionButton> {
-  final GlobalKey key = GlobalKey();
-  Offset position = Offset.zero;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: position.dx,
-      top: position.dy,
-      child: Draggable<Object>(
-        key: key,
-        data: widget.data,
-        childWhenDragging: Container(),
-        feedback: widget.feedback,
-        child: FloatingActionButton(
-          child: const Icon(Icons.menu),
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
-        onDraggableCanceled: (velocity, offset) {
-          setState(() {
-            position = offset;
-          });
-        },
-      ),
-    );
   }
 }

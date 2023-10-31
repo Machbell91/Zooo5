@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class Header extends StatefulWidget {
   final Function(Locale) onLanguageChanged;
   final TextEditingController textController = TextEditingController();
   final Locale locale;
+  
 
   Header({Key? key, required this.onLanguageChanged, required this.locale}) : super(key: key);
 
@@ -14,6 +16,12 @@ class Header extends StatefulWidget {
 
 class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+
+  void onLanguageSelected(String lang) {
+  // ... reste du code
+  widget.onLanguageChanged(lang as Locale); // Ajoutez cette ligne
+}
+
 
   @override
   void initState() {
@@ -298,20 +306,15 @@ class NavigationLinks extends StatefulWidget {
 class _NavigationLinksState extends State<NavigationLinks> {
   int hoveredIndex = -1;
 
-  // Ajoutez cette liste d'éléments
-  List<String> items = [
-    'Accueil',
-    'Actualité',
-    'Ambassade',
-    'Présence',
-    'Relation',
-    'Espace Presse',
-    'Venir',
-    'Découvrir'
-  ];
+  late List<String> items;
 
   @override
   Widget build(BuildContext context) {
+    List<String> itemKeys = ['accueil', 'actualite', 'ambassade', 'presence', 'relation', 'espacePresse', 'venir', 'decouvrir'];
+    items = itemKeys.map((key) => AppLocalizations.of(context)?.translateNavigationItem(key) ?? key).toList();
+  
+
+  
     return Container(
       height: 100,
       padding: EdgeInsets.only(top: 5, bottom: 10),
@@ -329,8 +332,8 @@ class _NavigationLinksState extends State<NavigationLinks> {
                 });
               },
               child: Container(
-                width: 120,
-                margin: EdgeInsets.symmetric(horizontal: 12),
+                width: 150,
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 transform: Matrix4.identity()
                   ..scale(hoveredIndex == index ? 1.1 : 1),
                 decoration: BoxDecoration(
@@ -356,13 +359,13 @@ class _NavigationLinksState extends State<NavigationLinks> {
                         size: 20,
                         color: Colors.black,
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 7),
                       Text(
-                        item,
+                        AppLocalizations.of(context)?.translateNavigationItem(items[index]) ?? '',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 14,
+                          fontSize: 16,
                         ),
                       ),
                     ],
