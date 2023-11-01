@@ -71,7 +71,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
           onLanguageChanged: (locale) {
             // Logique pour le changement de langue
           },
-          locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+          locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
         ),
       ),
     );

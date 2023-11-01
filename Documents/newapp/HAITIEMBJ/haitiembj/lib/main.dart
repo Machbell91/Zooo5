@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> {
       onLanguageChanged: (locale) {
         // Logique pour le changement de langue
       },
-      locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+      locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
     )),
         );
       }
@@ -131,7 +131,7 @@ class _MyAppState extends State<MyApp> {
           onLanguageChanged: (locale) {
             // Logique pour le changement de langue
           },
-          locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+          locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
         ),
         // ... other routes
       },
@@ -166,7 +166,7 @@ class _MyAppState extends State<MyApp> {
                     onLanguageChanged: (locale) {
                       // Logique pour le changement de langue
                     },
-                    locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+                    locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
 )),
                   );
                 },
@@ -214,7 +214,7 @@ class MyHomePage extends StatelessWidget {
   onLanguageChanged: (locale) {
     // Logique pour le changement de langue
   },
-  locale: Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+  locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
 )),
     );
   }
@@ -247,14 +247,17 @@ class WideLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double increasedHeight = screenHeight * 1.65; // Augmentation de 65%
+
     return Scaffold(
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height,
+            minHeight: increasedHeight,
           ),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: increasedHeight,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [ 
@@ -263,16 +266,22 @@ class WideLayout extends StatelessWidget {
                     MyApp.of(context)?.setLocale(newLocale);
                     print("Changement de langue vers ${newLocale.languageCode}");
                   },
-                  locale: Locale('fr', 'FR'), // spécifiez votre locale ici,
+                  locale: Locale('fr', 'FR'),
+                  width: double.infinity,
+                  height: 400,
                 ),
-                  const Row(
+                const Row(
                   children: [
+                    // Ajoutez d'autres éléments si nécessaire
                   ],
                 ),
                 Expanded(
                   child: Align(
-                    alignment: Alignment.topLeft, // Alignez à gauche
-                    child: Carousel(),
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Carousel(),
+                    ),
                   ),
                 ),
                 const Footer(),
@@ -286,11 +295,16 @@ class WideLayout extends StatelessWidget {
 }
 
 
+
+
+
+
+
 class NarrowLayout extends StatefulWidget {
   final Function(Locale) onLanguageChanged;
   final Locale locale;
 
-  const NarrowLayout({Key? key, required this.onLanguageChanged, required this.locale}) : super(key: key);
+  const NarrowLayout({super.key, required this.onLanguageChanged, required this.locale});
 
   @override
   _NarrowLayoutState createState() => _NarrowLayoutState();

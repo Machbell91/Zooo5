@@ -8,67 +8,84 @@ class Footer extends StatefulWidget {
 }
 
 class _FooterState extends State<Footer> {
+  bool _isFooterVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double screenWidth = MediaQuery.of(context).size.width;
 
-        return Container(
-          color: const Color.fromARGB(255, 243, 215, 243),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: SingleChildScrollView(
-              scrollDirection: screenWidth < 1200 ? Axis.horizontal : Axis.vertical,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: constraints.maxWidth),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHoverableColumn(
-                      context,
-                      "Haïti Au Japon",
-                      ["Liens utiles", "Contactez-nous", "Mentions légales", "Plan du site"],
-                      '/liens_utiles',
-                    ),
-                    const SizedBox(width: 40),
-                    _buildHoverableColumn(
-                      context,
-                      "Confidentialité",
-                      ["Politique de confidentialité", "Gestion des cookies", "Accessibilité : non conforme"],
-                      '/politique_confidentialite',
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/outils');
-                      },
-                      child: Center(
-                        child: Image.asset(
-                          '/Users/matthiaspierre/Documents/newapp/finalapp/assets/footer.png',
-                          height: 120,
-                        ),
+        return Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isFooterVisible = !_isFooterVisible;
+                });
+              },
+              child: Text(_isFooterVisible ? 'Cacher le pied de page' : 'Afficher le pied de page'),
+            ),
+            Visibility(
+              visible: _isFooterVisible,
+              child: Container(
+                color: const Color.fromARGB(255, 243, 215, 243),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: screenWidth < 1200 ? Axis.horizontal : Axis.vertical,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: constraints.maxWidth),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildHoverableColumn(
+                            context,
+                            "Haïti Au Japon",
+                            ["Liens utiles", "Contactez-nous", "Mentions légales", "Plan du site"],
+                            '/liens_utiles',
+                          ),
+                          const SizedBox(width: 40),
+                          _buildHoverableColumn(
+                            context,
+                            "Confidentialité",
+                            ["Politique de confidentialité", "Gestion des cookies", "Accessibilité : non conforme"],
+                            '/politique_confidentialite',
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/outils');
+                            },
+                            child: Center(
+                              child: Image.asset(
+                                '/Users/matthiaspierre/Documents/newapp/finalapp/assets/footer.png',
+                                height: 120,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 40),
+                          _buildHoverableColumn(
+                            context,
+                            "Outils",
+                            ["Augmenter/diminuer police", "S’inscrire aux flux RSS"],
+                            '/outils',
+                          ),
+                          const SizedBox(width: 40),
+                          _buildHoverableColumn(
+                            context,
+                            "Liens institutionnels",
+                            ["france.fr", "service-public.fr", "gouvernement.fr", "data.gouv.fr", "legifrance.gouv.fr", "diplomatie.gouv.fr"],
+                            '/liens_institutionnels',
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 40),
-                    _buildHoverableColumn(
-                      context,
-                      "Outils",
-                      ["Augmenter/diminuer police", "S’inscrire aux flux RSS"],
-                      '/outils',
-                    ),
-                    const SizedBox(width: 40),
-                    _buildHoverableColumn(
-                      context,
-                      "Liens institutionnels",
-                      ["france.fr", "service-public.fr", "gouvernement.fr", "data.gouv.fr", "legifrance.gouv.fr", "diplomatie.gouv.fr"],
-                      '/liens_institutionnels',
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
@@ -136,4 +153,3 @@ class _FooterState extends State<Footer> {
     );
   }
 }
-

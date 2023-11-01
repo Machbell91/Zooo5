@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import './navnav.dart';
 
 
 class Header extends StatefulWidget {
@@ -8,7 +9,7 @@ class Header extends StatefulWidget {
   final Locale locale;
   
 
-  Header({Key? key, required this.onLanguageChanged, required this.locale}) : super(key: key);
+  Header({super.key, required this.onLanguageChanged, required this.locale, required double width, required int height});
 
   @override
   _HeaderState createState() => _HeaderState();
@@ -28,7 +29,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
   }
 
@@ -37,7 +38,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
     final AppLocalizations? localizations = AppLocalizations.of(context);
 
     return Container(
-      constraints: BoxConstraints(maxHeight: 400),
+      constraints: const BoxConstraints(minHeight: 400),
       margin: const EdgeInsets.only(
         bottom: 5,
       ),
@@ -56,7 +57,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
          
             TextButton(
               onPressed: () {
-                widget.onLanguageChanged(Locale('ht', 'HT')); // Remplacez par la langue souhaitée
+                widget.onLanguageChanged(const Locale('ht', 'HT')); // Remplacez par la langue souhaitée
               },
               child: Text(
                 localizations?.kreyol ?? '',
@@ -66,7 +67,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
             ),
               TextButton(
               onPressed: () {
-                widget.onLanguageChanged(Locale('fr', 'FR')); // Remplacez par la langue souhaitée
+                widget.onLanguageChanged(const Locale('fr', 'FR')); // Remplacez par la langue souhaitée
               },
                 child: Text(
                   localizations?.francais ?? '',
@@ -76,7 +77,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
               ),
               TextButton(
                 onPressed: () {
-                  widget.onLanguageChanged(Locale('ja', 'JP'));
+                  widget.onLanguageChanged(const Locale('ja', 'JP'));
                 },
                 child: Text(
                   localizations?.japon ?? '',
@@ -86,7 +87,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
               ),
               TextButton(
                 onPressed: () {
-                  widget.onLanguageChanged(Locale('ko', 'KR'));
+                  widget.onLanguageChanged(const Locale('ko', 'KR'));
                 },
                 child: Text(
                   localizations?.coreen ?? '',
@@ -96,7 +97,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
               ),
               TextButton(
                     onPressed: () {
-                      widget.onLanguageChanged(Locale('zh', 'CN'));
+                      widget.onLanguageChanged(const Locale('zh', 'CN'));
                     },
                 child: Text(
                   localizations?.chinois ?? '',
@@ -106,7 +107,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
               ),
               TextButton(
                 onPressed: () {
-                  widget.onLanguageChanged(Locale('en', 'US'));
+                  widget.onLanguageChanged(const Locale('en', 'US'));
                 },
                 child: Text(
                   localizations?.anglais ?? '',
@@ -233,7 +234,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: SizedBox(
-                  width: 200,
+                  width: 150,
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: localizations?.rechercher ?? '',
@@ -268,12 +269,12 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
             ),
           ),
           // Navigation
-          NavigationLinks(),
+          const NavigationLinks(),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             height: 5,
-            margin: EdgeInsets.symmetric(vertical: 0.1),
-            decoration: BoxDecoration(
+            margin: const EdgeInsets.symmetric(vertical: 0.1),
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -294,88 +295,127 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   }
 }
 
+
 class NavigationLinks extends StatefulWidget {
-  const NavigationLinks({Key? key});
+  const NavigationLinks({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _NavigationLinksState();
-  }
+  _NavigationLinksState createState() => _NavigationLinksState();
 }
 
 class _NavigationLinksState extends State<NavigationLinks> {
-  int hoveredIndex = -1;
 
+  int hoveredIndex = -1;
   late List<String> items;
 
   @override
   Widget build(BuildContext context) {
-    List<String> itemKeys = ['accueil', 'actualite', 'ambassade', 'presence', 'relation', 'espacePresse', 'venir', 'decouvrir'];
-    items = itemKeys.map((key) => AppLocalizations.of(context)?.translateNavigationItem(key) ?? key).toList();
-  
 
-  
+    // Récupérer la largeur
+    var width = MediaQuery.of(context).size.width;
+
+    List<String> itemKeys = [
+      'accueil',
+      'actualite',
+      'ambassade',
+      'presence',
+      'relation',
+      'espacePresse',
+      'venir',
+      'decouvrir'
+    ];
+
+    items = itemKeys
+        .map((key) => AppLocalizations.of(context)?.translateNavigationItem(key) ?? key)
+        .toList();
+
     return Container(
       height: 100,
-      padding: EdgeInsets.only(top: 5, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: items.map((String item) {
-          int index = items.indexOf(item);
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
 
-          return Flexible(
-            child: InkWell(
-              onTap: () {},
-              onHover: (value) {
-                setState(() {
-                  hoveredIndex = value ? index : -1;
-                });
-              },
-              child: Container(
-                width: 150,
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                transform: Matrix4.identity()
-                  ..scale(hoveredIndex == index ? 1.1 : 1),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                    ),
-                  ],
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 11,
-                    vertical: 5,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.home,
-                        size: 20,
-                        color: Colors.black,
-                      ),
-                      SizedBox(height: 7),
-                      Text(
-                        AppLocalizations.of(context)?.translateNavigationItem(items[index]) ?? '',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+
+          double maxWidth = 150;
+
+          if (_getTextWidth(context) > maxWidth) {
+            NavDrawer();
+          } else {
+            // Affichage normal
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: items.map((String item) {
+
+              int index = items.indexOf(item);
+
+              return Flexible(
+                  child: InkWell(
+                      onTap: () {
+                        // Lien vers la page correspondante
+                      },
+                      onHover: (value) {
+                        setState(() {
+                          hoveredIndex = value ? index : -1;
+                        });
+                      },
+                      child: Container(
+                          width: 150,
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          transform: Matrix4.identity()
+                            ..scale(hoveredIndex == index ? 1.1 : 1),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 11,
+                              vertical: 5,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.home,
+                                  size: 20,
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(height: 1),
+                                Text(
+                                  AppLocalizations.of(context)?.translateNavigationItem(items[index]) ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12 * MediaQuery.textScaleFactorOf(context),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))));
+            }).toList(),
           );
-        }).toList(),
+
+        },
       ),
     );
+
   }
+
+  double _getTextWidth(BuildContext context) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: 'Texte'),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    return textPainter.size.width;
+  }
+
 }
