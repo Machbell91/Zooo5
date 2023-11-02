@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:haitiembj/layout/header.dart';
 import 'package:haitiembj/layout/footer.dart';
+import 'package:haitiembj/layout/regulararticle.dart';
 import 'mobilehomepage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './layout/urganncmnt.dart';
+import './layout/mainslider.dart';
 int selectedIndex = 0;
 
 void onSelected(int index) {
@@ -270,18 +272,32 @@ class WideLayout extends StatelessWidget {
                   width: double.infinity,
                   height: 400,
                 ),
-                const Row(
-                  children: [
-                    // Ajoutez d'autres éléments si nécessaire
-                  ],
-                ),
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Carousel(),
-                    ),
+                  child: Row(
+                    children: [
+                      // Carousel - 40% de l'espace horizontal
+                      Expanded(
+                        flex: 4,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Carousel(),
+                          ),
+                        ),
+                      ),
+                      // Votre nouveau widget - 60% de l'espace horizontal
+                      Expanded(
+                        flex: 6,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: AnimatedSlider(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const Footer(),
@@ -293,6 +309,7 @@ class WideLayout extends StatelessWidget {
     );
   }
 }
+
 
 
 

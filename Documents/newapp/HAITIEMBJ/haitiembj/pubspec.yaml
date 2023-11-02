@@ -51,6 +51,7 @@ dependencies:
   vector_math: ^2.1.4
   photo_view_x: ^0.0.3
   auto_size_text: ^3.0.0
+  page_view_indicators: ^2.0.0
   
 
 debugShowCheckedModeBanner: false
