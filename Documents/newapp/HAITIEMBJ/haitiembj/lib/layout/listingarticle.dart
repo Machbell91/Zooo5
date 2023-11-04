@@ -24,7 +24,7 @@ class Article {
 
 class Artika extends StatefulWidget {
   final double maxHeight;
-  final Locale locale;  // Make sure this line is present
+  final Locale locale;
 
   const Artika({Key? key, this.maxHeight = double.infinity, required this.locale}) : super(key: key);
 
@@ -89,15 +89,11 @@ class _ArtikaState extends State<Artika> {
   ];
 
   void onLanguageChanged(Locale newLocale) {
-    // Update widget state or perform other necessary actions
     setState(() {
-      // Update language in the parent widget
-      // ...
     });
   }
 
   void onComplete(Locale newLocale) {
-    // Implement the logic for completion here
   }
 
   @override
@@ -108,7 +104,6 @@ class _ArtikaState extends State<Artika> {
       color: Colors.transparent,
       child: ListView(
         children: [
-          // List of articles
           ...articles.map(
             (article) => Card(
               margin: const EdgeInsets.all(8.0),
@@ -273,7 +268,7 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
     }
   }
 
-  @override
+@override
 Widget build(BuildContext context) {
   double screenHeight = MediaQuery.of(context).size.height;
   int increasedHeight = screenHeight.round() * 2;
@@ -292,27 +287,25 @@ Widget build(BuildContext context) {
               Header(
                   onLanguageChanged: (Locale newLocale) {
                     MyApp.of(context)?.setLocale(newLocale);
-                    onComplete(newLocale); // Appeler onComplete avec la nouvelle locale
+                    onComplete(newLocale);
                   },
                   locale: const Locale('fr', 'FR'),
                   width: double.infinity,
                   height: 400,
                 ),
-              SizedBox(
-                height: 400,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: widget.article.imagePaths.length,
-                  itemBuilder: (context, index) {
-                    return Image.asset(
-                      widget.article.imagePaths[index],
-                      fit: BoxFit.cover,
-                    );
-                  },
+                SizedBox(
+                  height: 300, // Ajustez la hauteur selon vos besoins
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: widget.article.imagePaths.length,
+                    itemBuilder: (context, index) {
+                      return Image.asset(
+                        widget.article.imagePaths[index],
+                        fit: BoxFit.contain, // Utilisez BoxFit.contain ici
+                      );
+                    },
+                  ),
                 ),
-              ),
-
-              // ListView for the title and content
               Expanded(
                 child: ListView(
                   children: [
@@ -330,7 +323,7 @@ Widget build(BuildContext context) {
                                 Text(
                                   getTitle(context, widget.article.titleKey),
                                   style: const TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -338,6 +331,7 @@ Widget build(BuildContext context) {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 300.0),
                                   child: Text(
+                                    textAlign: TextAlign.justify,
                                     getContent(context, widget.article.contentKey),
                                     style: const TextStyle(fontSize: 16.0),
                                   ),
