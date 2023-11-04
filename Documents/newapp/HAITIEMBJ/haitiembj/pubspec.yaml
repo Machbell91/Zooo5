@@ -110,17 +110,31 @@ flutter:
   - assets/images/image_4.png
   - assets/images/image_5.png
   - assets/images/image_6.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_1.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_7.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_2.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_3.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_4.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_5.png
-  - /Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/image_6.png
+  - assets/images/image_1.png
+  - assets/images/image_7.png
+  - assets/images/image_2.png
+  - assets/images/image_3.png
+  - assets/images/image_4.png
+  - assets/images/image_5.png
+  - assets/images/image_6.png
   - assets/announcement/
   - assets/announcement/annonce2.jpeg
   - assets/announcement/Annoncepublic.jpeg
-
+  - assets/mainpics/ile-a-vache_16-16.jpg
+  - assets/mainpics/
+  - assets/mainpics/haitianmenu.webp
+  - assets/mainpics/painting.jpg
+  - assets/mainpics/muzik.jpeg
+  - assets/mainpics/barbancourt.webp
+  - assets/mainpics/sa-vie-est-un-roman.jpg
+  - assets/articlepictures/franco/
+  - assets/articlepictures/franco/1.jpeg
+  - assets/articlepictures/grulac2/
+  - assets/articlepictures/grulac2/1.jpeg
+  - assets/articlepictures/Kidsforest/3.jpeg
+  - assets/articlepictures/Kidsforest/
+  - assets/articlepictures/mikaben/
+  - assets/articlepictures/octobre22/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

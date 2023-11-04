@@ -13,14 +13,18 @@ class Header extends StatefulWidget {
 
   @override
   _HeaderState createState() => _HeaderState();
+  
+  void onComplete(Locale locale) {}
 }
 
 class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   void onLanguageSelected(String lang) {
-  // ... reste du code
-  widget.onLanguageChanged(lang as Locale); // Ajoutez cette ligne
+ void onLanguageSelected(String lang) {
+    widget.onLanguageChanged(Locale(lang)); // Utilisez le paramètre directement pour créer une nouvelle locale
+    widget.onComplete(Locale(lang)); // Appeler onComplete avec la nouvelle locale
+  } // Ajoutez cette ligne
 }
 
 
@@ -297,7 +301,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
 
 
 class NavigationLinks extends StatefulWidget {
-  const NavigationLinks({Key? key}) : super(key: key);
+  const NavigationLinks({super.key});
 
   @override
   _NavigationLinksState createState() => _NavigationLinksState();
@@ -339,7 +343,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
           double maxWidth = 150;
 
           if (_getTextWidth(context) > maxWidth) {
-            NavDrawer();
+            const NavDrawer();
           } else {
             // Affichage normal
           }
@@ -411,7 +415,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
 
   double _getTextWidth(BuildContext context) {
     final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: 'Texte'),
+      text: const TextSpan(text: 'Texte'),
       textDirection: TextDirection.ltr,
     );
     textPainter.layout();

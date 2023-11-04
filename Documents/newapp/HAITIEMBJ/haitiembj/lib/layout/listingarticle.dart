@@ -1,68 +1,363 @@
-/*import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:js';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import './footer.dart';
+import './header.dart';
+import '../main.dart';
 
-class Artikal extends StatelessWidget {
+class Article {
+  final String titleKey;
+  final String contentKey;
+  final String link;
+  final String imgPath;
+  final List<String> imagePaths;
+
+  const Article({
+    required this.imgPath,
+    required this.titleKey,
+    required this.contentKey,
+    required this.link,
+    required this.imagePaths,
+  });
+}
+
+class Artika extends StatefulWidget {
+  final double maxHeight;
+  final Locale locale;  // Make sure this line is present
+
+  const Artika({Key? key, this.maxHeight = double.infinity, required this.locale}) : super(key: key);
+
+  @override
+  State<Artika> createState() => _ArtikaState();
+
+  static _ArtikaState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_ArtikaState>();
+  }
+
+  void onLanguageChanged(Locale newLocale) {}
+}
+
+
+class _ArtikaState extends State<Artika> {
+  final List<Article> articles = [
+    const Article(
+      imgPath: 'assets/articlepictures/franco/1.jpeg',
+      titleKey: 'titrearticleslidemain0',
+      contentKey: 'textearticleslidemain0',
+      link: 'https://www.example.com/article1',
+      imagePaths: [
+        "assets/articlepictures/franco/2.jpeg",
+        "assets/articlepictures/franco/3.jpeg",
+        "assets/articlepictures/franco/4.jpeg",
+        "assets/articlepictures/franco/5.jpeg",
+        "assets/articlepictures/franco/6.jpeg",
+        "assets/articlepictures/franco/7.jpeg",
+        "assets/articlepictures/franco/8.jpeg",
+        "assets/articlepictures/franco/9.jpeg",
+        "assets/articlepictures/franco/10.jpeg",
+        "assets/articlepictures/franco/11.jpeg",
+        "assets/articlepictures/franco/12.jpeg",
+        "assets/articlepictures/franco/13.jpeg",
+        "assets/articlepictures/franco/14.jpeg",
+        "assets/articlepictures/franco/15.jpeg",
+        "assets/articlepictures/franco/16.jpeg",
+        "assets/articlepictures/franco/17.jpeg",
+      ],
+    ),
+    const Article(
+      imgPath: 'assets/articlepictures/grulac2/1.jpeg',
+      titleKey: 'titrearticleslidemain1',
+      contentKey: 'textearticleslidemain1',
+      link: 'https://www.example.com/article2',
+      imagePaths: [
+        "assets/articlepictures/grulac2/1.jpeg",
+        "assets/articlepictures/grulac2/2.jpeg",
+      ],
+    ),
+    const Article(
+      imgPath: 'assets/articlepictures/Kidsforest/1.jpeg',
+      titleKey: 'titrearticleslidemain2',
+      contentKey: 'textearticleslidemain2',
+      link: 'https://www.example.com/article3',
+      imagePaths: [
+        "assets/articlepictures/Kidsforest/1.jpeg",
+        "assets/articlepictures/Kidsforest/2.jpeg",
+        "assets/articlepictures/Kidsforest/3.jpeg",
+      ],
+    ),
+  ];
+
+  void onLanguageChanged(Locale newLocale) {
+    // Update widget state or perform other necessary actions
+    setState(() {
+      // Update language in the parent widget
+      // ...
+    });
+  }
+
+  void onComplete(Locale newLocale) {
+    // Implement the logic for completion here
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'News App',
-      routes: {
-        '/': (context) => NewsListPage(),
-        '/article1': (context) => ArticlePage(article: articles[0]), 
-        '/article2': (context) => ArticlePage(article: articles[1]),
-        // etc... 
-      },
-      initialRoute: '/',
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Container(
+      color: Colors.transparent,
+      child: ListView(
+        children: [
+          // List of articles
+          ...articles.map(
+            (article) => Card(
+              margin: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.asset(
+                    article.imgPath,
+                    fit: BoxFit.cover,
+                    height: screenHeight * 0.5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getTitle(context, article.titleKey),
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          getContent(context, article.contentKey),
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                        const SizedBox(height: 8.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ArticleDetailPage(
+                                  article: article,
+                                  onLanguageChanged: widget.onLanguageChanged,
+                                  locale: widget.locale,
+                                ),
+                              ),
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromARGB(255, 217, 146, 201)),
+                          ),
+                          child: Text(AppLocalizations.of(context)?.lirePlus ?? ''),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
+  String getTitle(BuildContext context, String titleKey) {
+    switch (titleKey) {
+      case 'titrearticleslidemain0':
+        return AppLocalizations.of(context)?.titrearticleslidemain0 ?? '';
+      case 'titrearticleslidemain1':
+        return AppLocalizations.of(context)?.titrearticleslidemain1 ?? '';
+      case 'titrearticleslidemain2':
+        return AppLocalizations.of(context)?.titrearticleslidemain2 ?? '';
+      default:
+        return '';
+    }
+  }
+
+  String getContent(BuildContext context, String contentKey) {
+    switch (contentKey) {
+      case 'textearticleslidemain0':
+        return AppLocalizations.of(context)?.textearticleslidemain0 ?? '';
+      case 'textearticleslidemain1':
+        return AppLocalizations.of(context)?.textearticleslidemain1 ?? '';
+      case 'textearticleslidemain2':
+        return AppLocalizations.of(context)?.textearticleslidemain2 ?? '';
+      default:
+        return '';
+    }
+  }
 }
 
-class NewsListPage extends StatelessWidget {
+class ArticleDetailPage extends StatefulWidget {
+  final Article article;
+  final Function(Locale) onLanguageChanged;
+  final Locale locale;
 
-  final articles = [
-    Article(
-      'Article 1',
-      'https://example.com/image1.jpg',
-      'Contenu article 1'  
+  const ArticleDetailPage({
+    Key? key,
+    required this.article,
+    required this.onLanguageChanged,
+    required this.locale,
+  }) : super(key: key);
+
+  @override
+  _ArticleDetailPageState createState() => _ArticleDetailPageState();
+}
+
+class _ArticleDetailPageState extends State<ArticleDetailPage> {
+  late PageController _pageController;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+        if (_pageController.hasClients) {
+          if (_pageController.page == widget.article.imagePaths.length - 1) {
+            _pageController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            _pageController.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  String getTitle(BuildContext context, String titleKey) {
+    switch (titleKey) {
+      case 'titrearticleslidemain0':
+        return AppLocalizations.of(context)?.titrearticleslidemain0 ?? '';
+      case 'titrearticleslidemain1':
+        return AppLocalizations.of(context)?.titrearticleslidemain1 ?? '';
+      case 'titrearticleslidemain2':
+        return AppLocalizations.of(context)?.titrearticleslidemain2 ?? '';
+      default:
+        return '';
+    }
+  }
+
+  String getContent(BuildContext context, String contentKey) {
+    switch (contentKey) {
+      case 'textearticleslidemain0':
+        return AppLocalizations.of(context)?.textearticleslidemain0 ?? '';
+      case 'textearticleslidemain1':
+        return AppLocalizations.of(context)?.textearticleslidemain1 ?? '';
+      case 'textearticleslidemain2':
+        return AppLocalizations.of(context)?.textearticleslidemain2 ?? '';
+      default:
+        return '';
+    }
+  }
+
+  @override
+Widget build(BuildContext context) {
+  double screenHeight = MediaQuery.of(context).size.height;
+  int increasedHeight = screenHeight.round() * 2;
+
+  return Scaffold(
+    body: SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: increasedHeight.toDouble(),
+        ),
+        child: SizedBox(
+          height: increasedHeight.toDouble(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Header(
+                  onLanguageChanged: (Locale newLocale) {
+                    MyApp.of(context)?.setLocale(newLocale);
+                    onComplete(newLocale); // Appeler onComplete avec la nouvelle locale
+                  },
+                  locale: const Locale('fr', 'FR'),
+                  width: double.infinity,
+                  height: 400,
+                ),
+              SizedBox(
+                height: 400,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: widget.article.imagePaths.length,
+                  itemBuilder: (context, index) {
+                    return Image.asset(
+                      widget.article.imagePaths[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+              ),
+
+              // ListView for the title and content
+              Expanded(
+                child: ListView(
+                  children: [
+                    Card(
+                      margin: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(height: 30.0),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  getTitle(context, widget.article.titleKey),
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 150.0),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 300.0),
+                                  child: Text(
+                                    getContent(context, widget.article.contentKey),
+                                    style: const TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     ),
-    Article(
-      'Article 2',
-      'https://example.com/image2.jpg',
-      'Contenu article 2'
-    ),
-    // Reste des articles
-  ];
+  );
+}
 
-  @override 
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(title: Text("Actualités")),
-      body: _buildList(), 
-    );
-
-  }
-
-  Widget _buildList() {
-    return ListView.builder(
-      itemCount: articles.length,
-      itemBuilder: (context, index) {
-        return _buildListItem(articles[index]);  
-      },
-    );
-  }
-
-  Widget _buildListItem(Article article) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context, 
-          '/article${index+1}'
-        );
-      },
-      child: ListItem(article: article), 
-    );
-  }
-
-}*/
+  void onComplete(Locale newLocale) {}
+}

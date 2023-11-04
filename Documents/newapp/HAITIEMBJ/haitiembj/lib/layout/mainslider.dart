@@ -1,14 +1,13 @@
+import 'dart:async';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:haitiembj/layout/header.dart';
-import 'package:haitiembj/layout/footer.dart';
-import 'package:haitiembj/layout/regulararticle.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
 class AnimatedSlider extends StatefulWidget {
+  const AnimatedSlider({super.key});
+
   @override
   _AnimatedSliderState createState() => _AnimatedSliderState();
 }
@@ -16,6 +15,7 @@ class AnimatedSlider extends StatefulWidget {
 class _AnimatedSliderState extends State<AnimatedSlider> {
   late PageController _pageController;
   late double _currentPage;
+  late Timer _timer;
 
   @override
   void initState() {
@@ -26,12 +26,26 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
 
     _currentPage = _pageController.initialPage.toDouble();
 
+    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+      if (_currentPage < 6) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _pageController.animateToPage(
+        _currentPage.toInt(),
+        duration: const Duration(milliseconds: 500), 
+        curve: Curves.easeInOut,
+      );
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -40,22 +54,23 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
     return Column(
       children: [
         Container(
-          height: 320,
+          height: 300,
           width: 1300,
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
           ),
           child: PageView.builder(
             controller: _pageController,
-            itemCount: 7, // Modifié pour prendre en compte jusqu'à l'indice 6
+            itemCount: 7,
             itemBuilder: (context, index) {
-              return _buildPage(index);
+              return _buildPage(context, index % 7); 
             },
             onPageChanged: (int page) {
               setState(() {
                 _currentPage = page.toDouble();
               });
             },
+            allowImplicitScrolling: true,
           ),
         ),
         const SizedBox(height: 20),
@@ -63,10 +78,10 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DotsIndicator(
-              dotsCount: 7, // Modifié pour prendre en compte jusqu'à l'indice 6
+              dotsCount: 7,
               position: _currentPage.toInt(),
-              decorator: DotsDecorator(
-                color: Colors.black87, // Inactive color
+              decorator: const DotsDecorator(
+                color: Colors.black87,
                 activeColor: Colors.redAccent,
               ),
             ),
@@ -76,12 +91,38 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
     );
   }
 
-  Widget _buildPage(int index) {
+  Widget _buildPage(BuildContext context, int index) {
+    String imagePath;
+    if (index == 0) {
+      imagePath = "assets/mainpics/ht.png";
+    } else {
+      switch (index) {
+        case 1:
+          imagePath = "assets/mainpics/ile-a-vache_16-16.jpg";
+          break;
+        case 2:
+          imagePath = "assets/mainpics/haitianmenu.webp";
+          break;
+        case 3:
+          imagePath = "assets/mainpics/painting.jpg";
+          break;
+        case 4:
+          imagePath = "assets/mainpics/muzik.jpeg";
+          break;
+        case 5:
+          imagePath = "assets/mainpics/barbancourt.webp";
+          break;
+        case 6:
+          imagePath = "assets/mainpics/sa-vie-est-un-roman.jpg";
+          break;
+        default:
+          imagePath = "";
+      }
+    }
+
     return Row(
       children: [
-        Image.asset(index.isEven
-            ? "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/articlepictures/franco/1.jpeg"
-            : "/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/articlepictures/grulac2/1.jpeg"),
+        Image.network(imagePath),
         const SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -90,7 +131,7 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Text(
-                  getTitle(index),
+                  getTitle(context, index), 
                   style: const TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontSize: 30,
@@ -104,12 +145,16 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
                 color: const Color.fromARGB(255, 0, 0, 0),
                 width: 100,
               ),
-              const SizedBox(height: 60),
-              Text(
-                getText(index),
-                style: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 20,
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Text(
+                  getText(context, index),
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.justify,
                 ),
               ),
             ],
@@ -119,7 +164,7 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
     );
   }
 
-  String getTitle(int index) {
+  String getTitle(BuildContext context, int index) {
     switch (index) {
       case 0:
         return AppLocalizations.of(context)!.titreslidemainO;
@@ -140,7 +185,7 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
     }
   }
 
-  String getText(int index) {
+  String getText(BuildContext context, int index) {
     switch (index) {
       case 0:
         return AppLocalizations.of(context)!.texteslidemainO;

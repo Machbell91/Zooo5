@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:haitiembj/layout/header.dart';
 import 'package:haitiembj/layout/footer.dart';
-import 'package:haitiembj/layout/regulararticle.dart';
 import 'mobilehomepage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './layout/urganncmnt.dart';
 import './layout/mainslider.dart';
+import './layout/listingarticle.dart';
 int selectedIndex = 0;
 
 void onSelected(int index) {
@@ -243,14 +243,14 @@ class MyHomePage extends StatelessWidget {
 }
 
 class WideLayout extends StatelessWidget {
-  final Null Function(dynamic) onComplete;
+  final Null Function(dynamic lang) onComplete;
 
   const WideLayout({super.key, required this.onComplete});
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double increasedHeight = screenHeight * 1.65; // Augmentation de 65%
+    double increasedHeight = screenHeight * 2.3;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -261,46 +261,60 @@ class WideLayout extends StatelessWidget {
           child: SizedBox(
             height: increasedHeight,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [ 
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Header(
                   onLanguageChanged: (Locale newLocale) {
                     MyApp.of(context)?.setLocale(newLocale);
-                    print("Changement de langue vers ${newLocale.languageCode}");
+                    onComplete(newLocale); // Appeler onComplete avec la nouvelle locale
                   },
-                  locale: Locale('fr', 'FR'),
+                  locale: const Locale('fr', 'FR'),
                   width: double.infinity,
                   height: 400,
                 ),
-                Expanded(
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: AnimatedSlider(),
+                  ),
+                ),
+                // Padding entre AnimatedSlider et Carousel
+                const Padding(
+                  padding: EdgeInsets.only(top: 1.0),
+                ),
+
+                // Deux colonnes en dessous de AnimatedSlider
+                const Expanded(
                   child: Row(
                     children: [
-                      // Carousel - 40% de l'espace horizontal
+                      // La première colonne avec le Carousel (40% de la largeur)
                       Expanded(
                         flex: 4,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Carousel(),
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start, // Aligner au début (haut)
+                          children: [
+                            // Mettez ici d'autres widgets si nécessaire
+                            AspectRatio(
+                              aspectRatio: 0.8,
+                              child: Carousel(),
+                            ),
+                          ],
                         ),
                       ),
-                      // Votre nouveau widget - 60% de l'espace horizontal
+                      // La deuxième colonne avec autre chose (60% de la largeur)
                       Expanded(
                         flex: 6,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: AnimatedSlider(),
-                          ),
-                        ),
+                        child: Artika(locale: Locale('fr''FR'),),
                       ),
                     ],
                   ),
                 ),
-                const Footer(),
+                // Footer à 100% de la largeur horizontale, en bas de la page
+                const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Footer(),
+                ),
               ],
             ),
           ),
@@ -309,6 +323,10 @@ class WideLayout extends StatelessWidget {
     );
   }
 }
+
+
+
+
 
 
 
