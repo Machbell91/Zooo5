@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import './navnav.dart';
 
 
 class Header extends StatefulWidget {
@@ -298,8 +297,6 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 }
-
-
 class NavigationLinks extends StatefulWidget {
   const NavigationLinks({super.key});
 
@@ -308,118 +305,101 @@ class NavigationLinks extends StatefulWidget {
 }
 
 class _NavigationLinksState extends State<NavigationLinks> {
+  Map<String, List<String>> submenus = {
+    'consulat': [
+      'titreconsulat0',
+      'titreconsulat1',
+      'titreconsulat2',
+      'titreconsulat3',
+      'titreconsulat4',
+      'titreconsulat5',
+      'titreconsulat6',
+      'titreconsulat7',
+      'titreconsulat8',
+      'titreconsulat9',
+    ],
+  };
+  
+  List<String> itemKeys = [
+    'accueil',
+    'actualite',
+    'ambassade',
+    'consulat',
+    'presence',
+    'relation',
+    'espacePresse',
+    'venir',
+    'decouvrir',
+  ];
 
-  int hoveredIndex = -1;
-  late List<String> items;
+  int selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
+    final consulatSubmenu = submenus['consulat']!;
+    final items = itemKeys.map((key) => key).toList();
 
-    // Récupérer la largeur
-    var width = MediaQuery.of(context).size.width;
-
-    List<String> itemKeys = [
-      'accueil',
-      'actualite',
-      'ambassade',
-      'presence',
-      'relation',
-      'espacePresse',
-      'venir',
-      'decouvrir'
-    ];
-
-    items = itemKeys
-        .map((key) => AppLocalizations.of(context)?.translateNavigationItem(key) ?? key)
-        .toList();
-
-    return Container(
-      height: 100,
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
-
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-
-          double maxWidth = 150;
-
-          if (_getTextWidth(context) > maxWidth) {
-            const NavDrawer();
-          } else {
-            // Affichage normal
-          }
-
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: items.map((String item) {
-
-              int index = items.indexOf(item);
-
-              return Flexible(
-                  child: InkWell(
-                      onTap: () {
-                        // Lien vers la page correspondante
-                      },
-                      onHover: (value) {
-                        setState(() {
-                          hoveredIndex = value ? index : -1;
-                        });
-                      },
-                      child: Container(
-                          width: 150,
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          transform: Matrix4.identity()
-                            ..scale(hoveredIndex == index ? 1.1 : 1),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 10,
-                              ),
-                            ],
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 11,
-                              vertical: 5,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.home,
-                                  size: 20,
-                                  color: Colors.black,
-                                ),
-                                const SizedBox(height: 1),
-                                Text(
-                                  AppLocalizations.of(context)?.translateNavigationItem(items[index]) ?? '',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12 * MediaQuery.textScaleFactorOf(context),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ))));
-            }).toList(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: items.asMap().entries.map((MapEntry<int, String> entry) {
+        final int index = entry.key;
+        final String item = entry.value;
+      
+        if (item == 'consulat') {
+          return Container(  
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            child: PopupMenuButton<String>(
+              onSelected: (String value) {
+                setState(() {
+                  selectedIndex = index;
+                });
+                print("Sélectionné : $value");
+              },
+              itemBuilder: (BuildContext context) {
+                return consulatSubmenu.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(
+                      AppLocalizations.of(context)?.translateNavigationItem(choice) ?? choice,
+                    ),
+                  );
+                }).toList();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(color: index == selectedIndex ? Colors.black : Colors.transparent, width: 2),
+                    right: BorderSide(color: index == selectedIndex ? Colors.black : Colors.transparent, width: 2),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
           );
-
-        },
-      ),
+        } else {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 22),
+              child: Text(
+                AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          );
+        }
+      }).toList(),
     );
-
   }
-
-  double _getTextWidth(BuildContext context) {
-    final TextPainter textPainter = TextPainter(
-      text: const TextSpan(text: 'Texte'),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout();
-    return textPainter.size.width;
-  }
-
 }

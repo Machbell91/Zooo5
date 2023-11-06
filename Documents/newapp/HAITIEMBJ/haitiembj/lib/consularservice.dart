@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import './footer.dart';
-import './header.dart';
+import './layout/footer.dart';
+import './layout/header.dart';
 import '../main.dart';
 
 class Article {
@@ -76,12 +76,26 @@ class _InformationPagesState extends State<InformationPages> {
 
   String getTitle(BuildContext context, String titleKey) {
     switch (titleKey) {
-      case 'titrearticleslidemain0':
-        return AppLocalizations.of(context)?.titrearticleslidemain0 ?? '';
-      case 'titrearticleslidemain1':
-        return AppLocalizations.of(context)?.titrearticleslidemain1 ?? '';
-      case 'titrearticleslidemain2':
-        return AppLocalizations.of(context)?.titrearticleslidemain2 ?? '';
+      case 'titreconsulat0':
+        return AppLocalizations.of(context)?.titreconsulat0?? '';
+      case 'titreconsulat1':
+        return AppLocalizations.of(context)?.titreconsulat1 ?? '';
+      case 'titreconsulat2':
+        return AppLocalizations.of(context)?.titreconsulat2 ?? '';
+      case 'titreconsulat3':
+        return AppLocalizations.of(context)?.titreconsulat3 ?? '';
+      case 'titreconsulat4':
+        return AppLocalizations.of(context)?.titreconsulat4 ?? '';
+      case 'titreconsulat5':
+        return AppLocalizations.of(context)?.titreconsulat5 ?? '';
+      case 'titreconsulat6':
+        return AppLocalizations.of(context)?.titreconsulat6 ?? '';
+      case 'titreconsulat7':
+        return AppLocalizations.of(context)?.titreconsulat7 ?? '';
+      case 'titreconsulat8':
+        return AppLocalizations.of(context)?.titreconsulat8 ?? '';
+      case 'titreconsulat9':
+        return AppLocalizations.of(context)?.titreconsulat9 ?? '';
       default:
         return '';
     }
@@ -89,12 +103,26 @@ class _InformationPagesState extends State<InformationPages> {
 
   String getContent(BuildContext context, String summaryKey) {
     switch (summaryKey) {
-      case 'completeeventarticle0':
-        return AppLocalizations.of(context)?.completeeventarticle0 ?? '';
-      case 'completeeventarticle1':
-        return AppLocalizations.of(context)?.completeeventarticle1 ?? '';
-      case 'completeeventarticle2':
-        return AppLocalizations.of(context)?.completeeventarticle2 ?? '';
+      case 'texteconsulat0':
+        return AppLocalizations.of(context)?.texteconsulat0?? '';
+      case 'texteconsulat1':
+        return AppLocalizations.of(context)?.texteconsulat1 ?? '';
+      case 'texteconsulat2':
+        return AppLocalizations.of(context)?.texteconsulat2 ?? '';
+      case 'texteconsulat3':
+        return AppLocalizations.of(context)?.texteconsulat3 ?? '';
+      case 'texteconsulat4':
+        return AppLocalizations.of(context)?.texteconsulat4 ?? '';
+      case 'texteconsulat5':
+        return AppLocalizations.of(context)?.texteconsulat5 ?? '';
+      case 'texteconsulat6':
+        return AppLocalizations.of(context)?.texteconsulat6 ?? '';
+      case 'texteconsulat7':
+        return AppLocalizations.of(context)?.texteconsulat7 ?? '';
+      case 'texteconsulat8':
+        return AppLocalizations.of(context)?.texteconsulat8 ?? '';
+      case 'texteconsulat9':
+        return AppLocalizations.of(context)?.texteconsulat9 ?? '';
       default:
         return '';
     }
@@ -126,58 +154,20 @@ Widget build(BuildContext context) {
                   height: 400,
                 ),
                 SizedBox(
-                  height: 400,
+                  height: 300,
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: widget.article.imagePaths.length,
                     itemBuilder: (context, index) {
                       return Image.asset(
-                        widget.article.imagePaths[index],
+                        'assets/other/consula.jpeg',
                         fit: BoxFit.contain,
                       );
                     },
                   ),
                 ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    Card(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(height: 30.0),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  getTitle(context, widget.article.titleKey),
-                                  style: const TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 100.0),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 350.0),
-                                  child: Text(
-                                    textAlign: TextAlign.justify,
-                                    getContent(context, widget.article.summaryKey),
-                                    style: const TextStyle(fontSize: 16.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Align(
+                
+                const Align(
                   alignment: Alignment.bottomCenter,
                   child: Footer(),
                 ),
@@ -189,6 +179,5 @@ Widget build(BuildContext context) {
     
   );
 }
-
   void onComplete(Locale newLocale) {}
 }

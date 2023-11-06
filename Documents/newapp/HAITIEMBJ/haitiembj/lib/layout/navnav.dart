@@ -37,6 +37,12 @@ class NavDrawer extends StatelessWidget {
           ),
 
           ListTile(
+            title: Text(localizations.translateNavigationItem('consulat')),
+            onTap: () {
+            }
+          ),
+
+          ListTile(
             title: Text(localizations.translateNavigationItem('presence')),
             onTap: () {
               // Lien vers la page de présence
@@ -93,6 +99,7 @@ class NavigationLinksUtil {
       localizations!.translateNavigationItem('accueil'),
       localizations.translateNavigationItem('actualite'),  
       localizations.translateNavigationItem('ambassade'),
+      localizations.translateNavigationItem('consulat'),
       localizations.translateNavigationItem('presence'),
       localizations.translateNavigationItem('relation'),
       localizations.translateNavigationItem('espacePresse'),
@@ -108,6 +115,7 @@ class NavigationLinksUtil {
       'accueil',
       'actualite',
       'ambassade',
+      'consulat',
       'presence',
       'relation', 
       'espacePresse',

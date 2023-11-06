@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './footer.dart';
@@ -9,6 +8,7 @@ import '../main.dart';
 class Article {
   final String titleKey;
   final String contentKey;
+  final String summaryKey;
   final String link;
   final String imgPath;
   final List<String> imagePaths;
@@ -17,6 +17,7 @@ class Article {
     required this.imgPath,
     required this.titleKey,
     required this.contentKey,
+    required this.summaryKey,
     required this.link,
     required this.imagePaths,
   });
@@ -26,7 +27,7 @@ class Artika extends StatefulWidget {
   final double maxHeight;
   final Locale locale;
 
-  const Artika({Key? key, this.maxHeight = double.infinity, required this.locale}) : super(key: key);
+  const Artika({super.key, this.maxHeight = double.infinity, required this.locale});
 
   @override
   State<Artika> createState() => _ArtikaState();
@@ -45,6 +46,7 @@ class _ArtikaState extends State<Artika> {
       imgPath: 'assets/articlepictures/franco/1.jpeg',
       titleKey: 'titrearticleslidemain0',
       contentKey: 'textearticleslidemain0',
+      summaryKey:'completeeventarticle0',
       link: 'https://www.example.com/article1',
       imagePaths: [
         "assets/articlepictures/franco/2.jpeg",
@@ -69,6 +71,7 @@ class _ArtikaState extends State<Artika> {
       imgPath: 'assets/articlepictures/grulac2/1.jpeg',
       titleKey: 'titrearticleslidemain1',
       contentKey: 'textearticleslidemain1',
+      summaryKey:'completeeventarticle1',
       link: 'https://www.example.com/article2',
       imagePaths: [
         "assets/articlepictures/grulac2/1.jpeg",
@@ -79,6 +82,7 @@ class _ArtikaState extends State<Artika> {
       imgPath: 'assets/articlepictures/Kidsforest/1.jpeg',
       titleKey: 'titrearticleslidemain2',
       contentKey: 'textearticleslidemain2',
+      summaryKey:'completeeventarticle2',
       link: 'https://www.example.com/article3',
       imagePaths: [
         "assets/articlepictures/Kidsforest/1.jpeg",
@@ -197,11 +201,11 @@ class ArticleDetailPage extends StatefulWidget {
   final Locale locale;
 
   const ArticleDetailPage({
-    Key? key,
+    super.key,
     required this.article,
     required this.onLanguageChanged,
     required this.locale,
-  }) : super(key: key);
+  });
 
   @override
   _ArticleDetailPageState createState() => _ArticleDetailPageState();
@@ -255,14 +259,14 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
     }
   }
 
-  String getContent(BuildContext context, String contentKey) {
-    switch (contentKey) {
-      case 'textearticleslidemain0':
-        return AppLocalizations.of(context)?.textearticleslidemain0 ?? '';
-      case 'textearticleslidemain1':
-        return AppLocalizations.of(context)?.textearticleslidemain1 ?? '';
-      case 'textearticleslidemain2':
-        return AppLocalizations.of(context)?.textearticleslidemain2 ?? '';
+  String getContent(BuildContext context, String summaryKey) {
+    switch (summaryKey) {
+      case 'completeeventarticle0':
+        return AppLocalizations.of(context)?.completeeventarticle0 ?? '';
+      case 'completeeventarticle1':
+        return AppLocalizations.of(context)?.completeeventarticle1 ?? '';
+      case 'completeeventarticle2':
+        return AppLocalizations.of(context)?.completeeventarticle2 ?? '';
       default:
         return '';
     }
@@ -294,14 +298,14 @@ Widget build(BuildContext context) {
                   height: 400,
                 ),
                 SizedBox(
-                  height: 300, // Ajustez la hauteur selon vos besoins
+                  height: 400,
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: widget.article.imagePaths.length,
                     itemBuilder: (context, index) {
                       return Image.asset(
                         widget.article.imagePaths[index],
-                        fit: BoxFit.contain, // Utilisez BoxFit.contain ici
+                        fit: BoxFit.contain,
                       );
                     },
                   ),
@@ -314,7 +318,7 @@ Widget build(BuildContext context) {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(height: 30.0),
+                          const SizedBox(height: 30.0),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 40.0),
                             child: Column(
@@ -327,12 +331,12 @@ Widget build(BuildContext context) {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 150.0),
+                                const SizedBox(height: 100.0),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 300.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 350.0),
                                   child: Text(
                                     textAlign: TextAlign.justify,
-                                    getContent(context, widget.article.contentKey),
+                                    getContent(context, widget.article.summaryKey),
                                     style: const TextStyle(fontSize: 16.0),
                                   ),
                                 ),
@@ -345,11 +349,16 @@ Widget build(BuildContext context) {
                   ],
                 ),
               ),
+              const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Footer(),
+                ),
             ],
           ),
         ),
       ),
     ),
+    
   );
 }
 
