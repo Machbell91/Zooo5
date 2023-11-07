@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:haitiembj/consularservice.dart';
+import 'package:haitiembj/invest.dart';
 
 
 class Header extends StatefulWidget {
@@ -298,7 +300,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   }
 }
 class NavigationLinks extends StatefulWidget {
-  const NavigationLinks({super.key});
+  const NavigationLinks({Key? key}) : super(key: key);
 
   @override
   _NavigationLinksState createState() => _NavigationLinksState();
@@ -318,8 +320,11 @@ class _NavigationLinksState extends State<NavigationLinks> {
       'titreconsulat8',
       'titreconsulat9',
     ],
+    'venir': [
+      'investhaiti',
+    ],
   };
-  
+
   List<String> itemKeys = [
     'accueil',
     'actualite',
@@ -334,29 +339,62 @@ class _NavigationLinksState extends State<NavigationLinks> {
 
   int selectedIndex = -1;
 
-  @override
-  Widget build(BuildContext context) {
-    final consulatSubmenu = submenus['consulat']!;
-    final items = itemKeys.map((key) => key).toList();
+  final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: items.asMap().entries.map((MapEntry<int, String> entry) {
-        final int index = entry.key;
-        final String item = entry.value;
-      
-        if (item == 'consulat') {
-          return Container(  
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: PopupMenuButton<String>(
+  Widget buildMenuItem(String item, int index) {
+    List<String> submenu = submenus[item] ?? [];
+  print("Item: $item");
+  print("Submenu: $submenu");
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: submenu.isEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 22),
+              child: Text(
+                AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+            )
+          : PopupMenuButton<String>(
               onSelected: (String value) {
                 setState(() {
                   selectedIndex = index;
                 });
-                print("Sélectionné : $value");
+                    if (value == 'investhaiti') {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => 
+                    InvestPages(
+                    key: key,
+                    onLanguageChanged: (locale) {}, 
+                    locale: Locale('fr', 'FR'),
+                    ),),  
+                  );
+                }
+                if (value.startsWith("titreconsulat")) {               
+                  Article article = Article(
+                    titleKey: value, 
+                    summaryKey: value, imgPath: '',
+                    // autres paramètres par défaut
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InformationPages(
+                        article: article,
+                        onLanguageChanged: (_) {}, 
+                        locale: Locale("fr", "FR"),
+                      )  
+                    )
+                  );
+                }
               },
               itemBuilder: (BuildContext context) {
-                return consulatSubmenu.map((String choice) {
+                return submenu.map((String choice) {
                   return PopupMenuItem<String>(
                     value: choice,
                     child: Text(
@@ -382,23 +420,15 @@ class _NavigationLinksState extends State<NavigationLinks> {
                 ),
               ),
             ),
-          );
-        } else {
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 22),
-              child: Text(
-                AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          );
-        }
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: itemKeys.asMap().entries.map((MapEntry<int, String> entry) {
+        return buildMenuItem(entry.value, entry.key);
       }).toList(),
     );
   }

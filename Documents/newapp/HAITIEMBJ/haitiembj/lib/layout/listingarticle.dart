@@ -333,7 +333,7 @@ Widget build(BuildContext context) {
                                 ),
                                 const SizedBox(height: 100.0),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 350.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 370.0),
                                   child: Text(
                                     textAlign: TextAlign.justify,
                                     getContent(context, widget.article.summaryKey),
