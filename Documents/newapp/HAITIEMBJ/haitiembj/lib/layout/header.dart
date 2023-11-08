@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:haitiembj/consularservice.dart';
 import 'package:haitiembj/invest.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class Header extends StatefulWidget {
@@ -322,6 +323,12 @@ class _NavigationLinksState extends State<NavigationLinks> {
     ],
     'venir': [
       'investhaiti',
+      'investors',
+    ],
+    'ambassade': [
+      'ambassador',
+      'contactus',
+      
     ],
   };
 
@@ -375,11 +382,13 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     ),),  
                   );
                 }
+                    if (value == 'investors') {
+                      launchUrl(Uri.parse("https://cfihaiti.com/index.php/fr/"));
+                    }
                 if (value.startsWith("titreconsulat")) {               
                   Article article = Article(
                     titleKey: value, 
-                    summaryKey: value, imgPath: '',
-                    // autres paramètres par défaut
+                    summaryKey: value,
                   );
                   Navigator.push(
                     context,

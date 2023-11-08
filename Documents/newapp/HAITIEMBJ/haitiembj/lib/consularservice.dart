@@ -7,11 +7,9 @@ import '../main.dart';
 class Article {
   final String titleKey;
   final String summaryKey;
-  final String imgPath;
 
 
   const Article({
-    required this.imgPath,
     required this.titleKey,
     required this.summaryKey,
   });
@@ -63,29 +61,30 @@ class _InformationPagesState extends State<InformationPages> {
     }
   }
 
-  String getContent(BuildContext context, String summaryKey) {
+  String getSum(BuildContext context, String summaryKey) {
     switch (summaryKey) {
-      case 'texteconsulat0':
+      case 'titreconsulat0':
         return AppLocalizations.of(context)?.texteconsulat0 ?? '';
-      case 'texteconsulat1':
+      case 'titreconsulat1':
         return AppLocalizations.of(context)?.texteconsulat1 ?? '';
-      case 'texteconsulat2':
+      case 'titreconsulat2':
         return AppLocalizations.of(context)?.texteconsulat2 ?? '';
-      case 'texteconsulat3':
+      case 'titreconsulat3':
         return AppLocalizations.of(context)?.texteconsulat3 ?? '';
-      case 'texteconsulat4':
+      case 'titreconsulat4':
         return AppLocalizations.of(context)?.texteconsulat4 ?? '';
-      case 'texteconsulat5':
+      case 'titreconsulat5':
         return AppLocalizations.of(context)?.texteconsulat5 ?? '';
-      case 'texteconsulat6':
+      case 'titreconsulat6':
         return AppLocalizations.of(context)?.texteconsulat6 ?? '';
-      case 'texteconsulat7':
+      case 'titreconsulat7':
         return AppLocalizations.of(context)?.texteconsulat7 ?? '';
-      case 'texteconsulat8':
+      case 'titreconsulat8':
         return AppLocalizations.of(context)?.texteconsulat8 ?? '';
-      case 'texteconsulat9':
+      case 'titreconsulat9':
         return AppLocalizations.of(context)?.texteconsulat9 ?? '';
       default:
+        print("Clé de résumé inconnue: $summaryKey");
         return '';
     }
   }
@@ -94,52 +93,60 @@ class _InformationPagesState extends State<InformationPages> {
 
   }
 
-  @override
-  Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    int increasedHeight = screenHeight.round() * 2;
+@override
+Widget build(BuildContext context) {
 
+  double screenHeight = MediaQuery.of(context).size.height;
+  int increasedHeight = screenHeight.round() * 2;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: increasedHeight.toDouble(),
-          ),
-          child: SizedBox(
-            height: increasedHeight.toDouble(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Header(
-                  onLanguageChanged: (Locale newLocale) {
-                    MyApp.of(context)?.setLocale(newLocale);
-                    onComplete(newLocale);
-                  },
-                  locale: const Locale('fr', 'FR'),
-                  width: double.infinity,
-                  height: 400,
-                ),
-                SizedBox(
-                  height: 300,
-                  child: PageView.builder(
-                    itemBuilder: (context, index) {
-                      return Image.asset(
-                        'assets/other/consula.jpeg',
-                        fit: BoxFit.contain,
-                      );
-                    },
+  return Scaffold(
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Header(
+          onLanguageChanged: (Locale newLocale) {
+            MyApp.of(context)?.setLocale(newLocale);
+            onComplete(newLocale);
+          },
+          locale: const Locale('fr', 'FR'),
+          width: double.infinity,
+          height: 400,
+        ),
+        Flexible(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: increasedHeight.toDouble(),
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                                  getTitle(context, widget.article.titleKey),
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                   ),
-                ),
-                const Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Footer(),
-                ),
-              ],
+                  const SizedBox(height: 50.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:380.0),
+                    child: Text(
+                                    textAlign: TextAlign.justify,
+                                    getSum(context, widget.article.summaryKey),
+                                    style: const TextStyle(fontSize: 16.0),
+                                  ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+        Footer(),
+      ],
+    ),
+  );
+}
 }
