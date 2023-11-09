@@ -7,11 +7,12 @@ import '../main.dart';
 class Article {
   final String titleKey;
   final String summaryKey;
-
+  final String imgPath;
 
   const Article({
     required this.titleKey,
     required this.summaryKey,
+    required this.imgPath,
   });
 }
 
@@ -130,7 +131,14 @@ Widget build(BuildContext context) {
                                   ),
                                 ),
                   ),
-                  const SizedBox(height: 50.0),
+                    const SizedBox(height: 20.0),
+                            Image.asset(
+                              '/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/slogocolor.png', 
+                              fit: BoxFit.cover, 
+                              width: 75, 
+                              height: 75,
+                            ),
+                   const SizedBox(height: 100.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal:380.0),
                     child: Text(

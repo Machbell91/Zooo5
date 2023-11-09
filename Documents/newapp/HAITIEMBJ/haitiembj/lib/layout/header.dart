@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:haitiembj/consularservice.dart';
+import 'package:haitiembj/flagcoat.dart';
+import 'package:haitiembj/haitienbref.dart';
 import 'package:haitiembj/invest.dart';
+import 'package:haitiembj/nationalhym.dart';
 import 'package:url_launcher/url_launcher.dart';
+import'../ambassador.dart';
+import '../contactus.dart';
 
 
 class Header extends StatefulWidget {
@@ -24,9 +29,9 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
 
   void onLanguageSelected(String lang) {
  void onLanguageSelected(String lang) {
-    widget.onLanguageChanged(Locale(lang)); // Utilisez le paramètre directement pour créer une nouvelle locale
-    widget.onComplete(Locale(lang)); // Appeler onComplete avec la nouvelle locale
-  } // Ajoutez cette ligne
+    widget.onLanguageChanged(Locale(lang));
+    widget.onComplete(Locale(lang)); 
+  } 
 }
 
 
@@ -328,18 +333,22 @@ class _NavigationLinksState extends State<NavigationLinks> {
     'ambassade': [
       'ambassador',
       'contactus',
-      
+    ],
+    'decouvrir': [
+      'flagcoat1',
+      'nationalhymn',
+      'haitienbref',
     ],
   };
 
   List<String> itemKeys = [
     'accueil',
-    'actualite',
+    //'actualite',
     'ambassade',
     'consulat',
-    'presence',
-    'relation',
-    'espacePresse',
+    //'presence',
+    //'relation',
+    //'espacePresse',
     'venir',
     'decouvrir',
   ];
@@ -367,6 +376,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
               ),
             )
           : PopupMenuButton<String>(
+            constraints: BoxConstraints(maxWidth: 160),
               onSelected: (String value) {
                 setState(() {
                   selectedIndex = index;
@@ -382,13 +392,69 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     ),),  
                   );
                 }
+                if (value == 'ambassador') {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => 
+                    AmbadorPages(
+                    key: key,
+                    onLanguageChanged: (locale) {}, 
+                    locale: Locale('fr', 'FR'),
+                    ),),  
+                  );
+                }
+                if (value == 'contactus') {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => 
+                    ContactusPages(
+                    key: key,
+                    onLanguageChanged: (locale) {}, 
+                    locale: Locale('fr', 'FR'),
+                    ),),  
+                  );
+                }
+                                if (value == 'flagcoat1') {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => 
+                    FlagcoatPages(
+                    key: key,
+                    onLanguageChanged: (locale) {}, 
+                    locale: Locale('fr', 'FR'),
+                    ),),  
+                  );
+                }
+                                if (value == 'nationalhymn') {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => 
+                    NationalHymnPages(
+                    key: key,
+                    onLanguageChanged: (locale) {}, 
+                    locale: Locale('fr', 'FR'),
+                    ),),  
+                  );
+                }
+                                if (value == 'haitienbref') {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => 
+                    HaitienBrefPages(
+                    key: key,
+                    onLanguageChanged: (locale) {}, 
+                    locale: Locale('fr', 'FR'),
+                    ),),  
+                  );
+                }
                     if (value == 'investors') {
                       launchUrl(Uri.parse("https://cfihaiti.com/index.php/fr/"));
                     }
                 if (value.startsWith("titreconsulat")) {               
                   Article article = Article(
                     titleKey: value, 
-                    summaryKey: value,
+                    summaryKey: value, 
+                    imgPath: '',
                   );
                   Navigator.push(
                     context,

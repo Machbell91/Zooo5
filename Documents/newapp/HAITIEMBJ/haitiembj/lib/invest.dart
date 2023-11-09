@@ -57,14 +57,14 @@ class _InvestPagesState extends State<InvestPages> {
                             ),
                             const SizedBox(height: 20.0),
                             Image.asset(
-                              'assets/slogo_color.png', 
+                              '/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/slogocolor.png', 
                               fit: BoxFit.cover, 
-                              width: 200, 
-                              height: 200,
+                              width: 50, 
+                              height: 50,
                               
                             ),
                             
-                            const SizedBox(height: 20.0),
+                            const SizedBox(height: 100.0),
                             
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 370.0),

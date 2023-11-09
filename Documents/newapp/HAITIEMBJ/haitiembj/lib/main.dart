@@ -185,7 +185,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required Null Function(dynamic lang) onComplete});
+  const MyHomePage({super.key, required Null Function(dynamic lang) onComplete, required Null Function(dynamic locale) onLanguageChanged, required Locale locale});
 
   void navigateToNarrowLayout(BuildContext context, String lang) {
     Locale locale = const Locale('fr', 'FR'); // Default value
