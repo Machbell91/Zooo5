@@ -83,7 +83,6 @@ class _MyAppState extends State<MyApp> {
   void onLanguageChanged(Locale locale) {
     print("Changement de langue vers : ${locale.languageCode}");
     setLocale(locale);
-    // Mettez à jour l'interface utilisateur en appelant setState()
     setState(() {});
   }
 
@@ -114,9 +113,8 @@ class _MyAppState extends State<MyApp> {
       context,
       MaterialPageRoute(builder: (context) =>  NarrowLayout(
       onLanguageChanged: (locale) {
-        // Logique pour le changement de langue
       },
-      locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+      locale: const Locale('fr', 'FR'),
     )),
         );
       }
@@ -166,10 +164,9 @@ class _MyAppState extends State<MyApp> {
                     context,
                     MaterialPageRoute(builder: (context) =>  NarrowLayout(
                     onLanguageChanged: (locale) {
-                      // Logique pour le changement de langue
                     },
-                    locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
-)),
+                    locale: const Locale('fr', 'FR'), 
+                    )),
                   );
                 },
                 appContext: context,
@@ -410,45 +407,51 @@ class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderSt
               return WideLayout(onComplete: (lang) {});
             } else {
               return Column(
-                children: [
-                  AppBar(
-                    automaticallyImplyLeading: false,
-                    backgroundColor: const Color.fromARGB(255, 208, 205, 205),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          fit: FlexFit.loose,
-                          child: Image.asset('assets/flaghaiti.png'),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            AppLocalizations.of(context)?.mowbeel ?? '',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 6, 18, 75),
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          fit: FlexFit.loose,
-                          child: Image.asset('assets/japanflag.png'),
-                        ),
-                      ],
-                    ),
+  children: [
+    AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: const Color.fromARGB(255, 208, 205, 205),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                fit: FlexFit.loose,
+                child: Image.asset('assets/flaghaiti.png'),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  AppLocalizations.of(context)?.mowbeel ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 6, 18, 75),
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  AnimatedBuilder(
-                    animation: _colorAnimation,
-                    builder: (context, child) => Container(
-                      height: 2.0,
-                      color: _colorAnimation.value!,
-                    ),
-                  ),
-                ],
-              );
+                ),
+              ),
+              Flexible(
+                fit: FlexFit.loose,
+                child: Image.asset('assets/japanflag.png'),
+              ),
+            ],
+          ),
+          AnimatedBuilder(
+            animation: _colorAnimation,
+            builder: (context, child) => Container(
+              height: 2.0,
+              color: _colorAnimation.value!,
+            ),
+          ),
+        ],
+      ),
+    ),
+  ],
+);
+
             }
           },
         ),
@@ -460,18 +463,12 @@ class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderSt
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: items.map((String item) {
-            return ListTile(
-              title: Text(item),
-              onTap: () {
-                // Logic for handling click on Drawer link
-              },
-            );
-          }).toList(),
+        child: NavigationLinks(
+          onLanguageChanged: (locale) {
+            // Mettre à jour le locale
+          } 
         ),
-      ),
+      )
     );
   }
 

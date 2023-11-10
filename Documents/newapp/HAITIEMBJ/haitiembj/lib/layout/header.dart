@@ -8,6 +8,7 @@ import 'package:haitiembj/nationalhym.dart';
 import 'package:url_launcher/url_launcher.dart';
 import'../ambassador.dart';
 import '../contactus.dart';
+import '../main.dart';
 
 
 class Header extends StatefulWidget {
@@ -280,7 +281,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
             ),
           ),
           // Navigation
-          const NavigationLinks(),
+          NavigationLinks(onLanguageChanged: (locale) {  },),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             height: 5,
@@ -306,7 +307,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   }
 }
 class NavigationLinks extends StatefulWidget {
-  const NavigationLinks({Key? key}) : super(key: key);
+  const NavigationLinks({Key? key, required Null Function(dynamic locale) onLanguageChanged}) : super(key: key);
 
   @override
   _NavigationLinksState createState() => _NavigationLinksState();
@@ -358,13 +359,28 @@ class _NavigationLinksState extends State<NavigationLinks> {
   final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
 
   Widget buildMenuItem(String item, int index) {
-    List<String> submenu = submenus[item] ?? [];
+  List<String> submenu = submenus[item] ?? [];
+  double verticalSpacing = 20.0;
   print("Item: $item");
   print("Submenu: $submenu");
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: submenu.isEmpty
-          ? Padding(
+
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 16,vertical: verticalSpacing),
+    child: submenu.isEmpty
+        ? GestureDetector(
+            onTap: () {
+              // Ajouter la redirection vers MyHomePage() pour le cas "accueil"
+              if (item == 'accueil') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(onComplete: (lang) {  }, onLanguageChanged: (locale) {  }, locale: Locale('fr','FRA'),),
+                  ),
+                );
+              } else {
+              }
+            },
+            child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 22),
               child: Text(
                 AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
@@ -374,21 +390,23 @@ class _NavigationLinksState extends State<NavigationLinks> {
                   fontSize: 16,
                 ),
               ),
-            )
-          : PopupMenuButton<String>(
-            constraints: BoxConstraints(maxWidth: 160),
-              onSelected: (String value) {
-                setState(() {
-                  selectedIndex = index;
-                });
-                    if (value == 'investhaiti') {
+            ),
+          )
+        : PopupMenuButton<String>(
+            constraints: const BoxConstraints(maxWidth: 160),
+            onSelected: (String value) {
+              setState(() {
+                selectedIndex = index;
+              });
+              // Reste du code pour les autres cas de redirection
+                if (value == 'investhaiti') {
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => 
                     InvestPages(
                     key: key,
                     onLanguageChanged: (locale) {}, 
-                    locale: Locale('fr', 'FR'),
+                    locale: const Locale('fr', 'FR'),
                     ),),  
                   );
                 }
@@ -399,7 +417,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     AmbadorPages(
                     key: key,
                     onLanguageChanged: (locale) {}, 
-                    locale: Locale('fr', 'FR'),
+                    locale: const Locale('fr', 'FR'),
                     ),),  
                   );
                 }
@@ -410,7 +428,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     ContactusPages(
                     key: key,
                     onLanguageChanged: (locale) {}, 
-                    locale: Locale('fr', 'FR'),
+                    locale: const Locale('fr', 'FR'),
                     ),),  
                   );
                 }
@@ -421,7 +439,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     FlagcoatPages(
                     key: key,
                     onLanguageChanged: (locale) {}, 
-                    locale: Locale('fr', 'FR'),
+                    locale: const Locale('fr', 'FR'),
                     ),),  
                   );
                 }
@@ -432,7 +450,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     NationalHymnPages(
                     key: key,
                     onLanguageChanged: (locale) {}, 
-                    locale: Locale('fr', 'FR'),
+                    locale: const Locale('fr', 'FR'),
                     ),),  
                   );
                 }
@@ -443,7 +461,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                     HaitienBrefPages(
                     key: key,
                     onLanguageChanged: (locale) {}, 
-                    locale: Locale('fr', 'FR'),
+                    locale: const Locale('fr', 'FR'),
                     ),),  
                   );
                 }
@@ -462,49 +480,63 @@ class _NavigationLinksState extends State<NavigationLinks> {
                       builder: (context) => InformationPages(
                         article: article,
                         onLanguageChanged: (_) {}, 
-                        locale: Locale("fr", "FR"),
+                        locale: const Locale("fr", "FR"),
                       )  
                     )
                   );
                 }
               },
-              itemBuilder: (BuildContext context) {
-                return submenu.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(
-                      AppLocalizations.of(context)?.translateNavigationItem(choice) ?? choice,
+            itemBuilder: (BuildContext context) {
+              return submenu.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(
+                    AppLocalizations.of(context)?.translateNavigationItem(choice) ?? choice,
+                    style: const TextStyle(
+                      fontSize: 14,
                     ),
-                  );
-                }).toList();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(color: index == selectedIndex ? Colors.black : Colors.transparent, width: 2),
-                    right: BorderSide(color: index == selectedIndex ? Colors.black : Colors.transparent, width: 2),
                   ),
+                );
+              }).toList();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(color: index == selectedIndex ? Colors.black : Colors.transparent, width: 2),
+                  right: BorderSide(color: index == selectedIndex ? Colors.black : Colors.transparent, width: 2),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                AppLocalizations.of(context)?.translateNavigationItem(item) ?? item,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
                 ),
               ),
             ),
-    );
-  }
+          ),
+  );
+}
+@override
+Widget build(BuildContext context) {
+  bool isWideScreen = MediaQuery.of(context).size.width > 600;
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: itemKeys.asMap().entries.map((MapEntry<int, String> entry) {
-        return buildMenuItem(entry.value, entry.key);
-      }).toList(),
-    );
-  }
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: isWideScreen ? 0 :8),
+    child: isWideScreen
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: itemKeys.asMap().entries.map((MapEntry<int, String> entry) {
+              return buildMenuItem(entry.value, entry.key);
+            }).toList(),
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: itemKeys.asMap().entries.map((MapEntry<int, String> entry) {
+              return buildMenuItem(entry.value, entry.key);
+            }).toList(),
+          ),
+  );
+}
 }
