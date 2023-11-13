@@ -10,7 +10,6 @@ import './layout/listingarticle.dart';
 int selectedIndex = 0;
 
 void onSelected(int index) {
-  // Update selectedIndex
 }
 
 class CustomMaterialLocalizations extends DefaultMaterialLocalizations {
@@ -23,17 +22,17 @@ class CustomMaterialLocalizations extends DefaultMaterialLocalizations {
   String get moreButtonTooltip {
     switch (locale.languageCode) {
       case 'ht':
-        return 'Plis'; // Provide your own translation
+        return 'Plis'; 
       case 'ja':
-        return 'もっと'; // Provide your own translation
+        return 'もっと';
       case 'ko':
-        return '더'; // Provide your own translation
+        return '더';
       case 'zh':
-        return '更多'; // Provide your own translation
+        return '更多';
       case 'fr':
-        return 'Plus'; // Provide your own translation
+        return 'Plus';
       case 'en':
-        return 'More'; // Provide your own translation
+        return 'More';
       default:
         return super.moreButtonTooltip;
     }
@@ -129,11 +128,9 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/NarrowLayout': (context) =>  NarrowLayout(
           onLanguageChanged: (locale) {
-            // Logique pour le changement de langue
           },
-          locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+          locale: const Locale('fr', 'FR'),
         ),
-        // ... other routes
       },
       locale: _locale,
       localizationsDelegates: const [
@@ -185,7 +182,7 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required Null Function(dynamic lang) onComplete, required Null Function(dynamic locale) onLanguageChanged, required Locale locale});
 
   void navigateToNarrowLayout(BuildContext context, String lang) {
-    Locale locale = const Locale('fr', 'FR'); // Default value
+    Locale locale = const Locale('fr', 'FR'); 
     switch (lang) {
       case 'Kreyòl':
         locale = const Locale('ht', 'HT');
@@ -211,9 +208,8 @@ class MyHomePage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) =>  NarrowLayout(
   onLanguageChanged: (locale) {
-    // Logique pour le changement de langue
   },
-  locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+  locale: const Locale('fr', 'FR'),
 )),
     );
   }
@@ -227,7 +223,6 @@ class MyHomePage extends StatelessWidget {
             onComplete: (lang) => navigateToNarrowLayout(context, lang),
             appContext: context,
             setLocale: (locale) {
-              // Do nothing or handle locale changes if needed
             },
             onLanguageChanged: (int) {},
           );
@@ -238,6 +233,8 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+//WEBSITE VERSION
 
 class WideLayout extends StatelessWidget {
   final Null Function(dynamic lang) onComplete;
@@ -263,7 +260,7 @@ class WideLayout extends StatelessWidget {
                 Header(
                   onLanguageChanged: (Locale newLocale) {
                     MyApp.of(context)?.setLocale(newLocale);
-                    onComplete(newLocale); // Appeler onComplete avec la nouvelle locale
+                    onComplete(newLocale);
                   },
                   locale: const Locale('fr', 'FR'),
                   width: double.infinity,
@@ -273,25 +270,20 @@ class WideLayout extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
-                    child: AnimatedSlider(),
+                    child: AnimatedSlider(height: 300, width: 1300,),
                   ),
                 ),
-                // Padding entre AnimatedSlider et Carousel
                 const Padding(
                   padding: EdgeInsets.only(top: 1.0),
                 ),
-
-                // Deux colonnes en dessous de AnimatedSlider
                 const Expanded(
                   child: Row(
                     children: [
-                      // La première colonne avec le Carousel (40% de la largeur)
                       Expanded(
                         flex: 4,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start, // Aligner au début (haut)
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Mettez ici d'autres widgets si nécessaire
                             AspectRatio(
                               aspectRatio: 0.8,
                               child: Carousel(),
@@ -299,7 +291,6 @@ class WideLayout extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // La deuxième colonne avec autre chose (60% de la largeur)
                       Expanded(
                         flex: 6,
                         child: Artika(locale: Locale('fr''FR'),),
@@ -307,7 +298,6 @@ class WideLayout extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Footer à 100% de la largeur horizontale, en bas de la page
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: Footer(),
@@ -322,159 +312,226 @@ class WideLayout extends StatelessWidget {
 }
 
 
+//MOBILE VERSION
 
 
+class LinearGradientTween extends Tween<LinearGradient> {
+  LinearGradientTween({required LinearGradient begin, required LinearGradient end})
+      : super(begin: begin, end: end);
 
-
-
-
-
-
-
+  @override
+  LinearGradient lerp(double t) => LinearGradient.lerp(begin, end, t)!;
+}
 
 class NarrowLayout extends StatefulWidget {
   final Function(Locale) onLanguageChanged;
   final Locale locale;
 
-  const NarrowLayout({super.key, required this.onLanguageChanged, required this.locale});
+  const NarrowLayout({
+    Key? key,
+    required this.onLanguageChanged,
+    required this.locale,
+  }) : super(key: key);
 
   @override
-  _NarrowLayoutState createState() => _NarrowLayoutState();
+  State<NarrowLayout> createState() => _NarrowLayoutState();
 }
 
-class _NarrowLayoutState extends State<NarrowLayout> with SingleTickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late AnimationController _controller;
-  late Animation<Color?> _colorAnimation;
-
-  late List<String> items;
+class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Alignment> _alignmentAnimation;
+  late Animation<LinearGradient> _colorAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
+    _animationController = AnimationController(
+      duration: const Duration(seconds:15),
       vsync: this,
-    )..repeat();
-
-    _colorAnimation = ColorTween(
-      begin: Colors.white,
-      end: Colors.blue,
-    ).animate(_controller);
-  }
-
-  @override
-  void didUpdateWidget(NarrowLayout oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.locale != oldWidget.locale) {
-      // Ne rien mettre ici
-    }
-  }
-
-  Draggable<Object> draggableFloatingActionButton() {
-    return Draggable<Object>(
-      data: 'Menu',
-      childWhenDragging: Container(),
-      feedback: FloatingActionButton(
-        child: const Icon(Icons.menu),
-        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-      ),
-      child: FloatingActionButton(
-        child: const Icon(Icons.menu),
-        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-      ),
-      onDraggableCanceled: (velocity, offset) {
-        setState(() {
-          // Update the position as needed
-        });
-      },
     );
+
+    _alignmentAnimation = AlignmentTween(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+    ).animate(_animationController);
+
+    _colorAnimation = LinearGradientTween(
+      begin: LinearGradient(colors: [const Color.fromARGB(255, 219, 37, 24)!, const Color.fromARGB(255, 241, 241, 240)!]),
+      end: LinearGradient(colors: [const Color.fromARGB(255, 247, 247, 247)!, const Color.fromARGB(255, 59, 82, 255)!]),
+    ).animate(_animationController) as Animation<LinearGradient>;
+
+    _animationController.repeat();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> itemKeys = ['accueil', 'actualite', 'ambassade', 'presence', 'relation', 'espacePresse', 'venir', 'decouvrir'];
-    items = itemKeys.map((key) => AppLocalizations.of(context)?.translateNavigationItem(key) ?? key).toList();
-
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth > 600) {
-              return WideLayout(onComplete: (lang) {});
-            } else {
-              return Column(
-  children: [
-    AppBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: const Color.fromARGB(255, 208, 205, 205),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                fit: FlexFit.loose,
-                child: Image.asset('assets/flaghaiti.png'),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  AppLocalizations.of(context)?.mowbeel ?? '',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 6, 18, 75),
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Image.asset(
+                    'assets/flaghaiti.png',
                   ),
                 ),
-              ),
-              Flexible(
-                fit: FlexFit.loose,
-                child: Image.asset('assets/japanflag.png'),
-              ),
-            ],
-          ),
-          AnimatedBuilder(
-            animation: _colorAnimation,
-            builder: (context, child) => Container(
-              height: 2.0,
-              color: _colorAnimation.value!,
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    AppLocalizations.of(context)?.mowbeel ?? '',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Image.asset(
+                    'assets/japanflag.png',
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    ),
-  ],
-);
-
-            }
-          },
+          ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Center(child: Container(color: Colors.white)),
-          draggableFloatingActionButton(),
-        ],
-      ),
-      drawer: Drawer(
-        child: NavigationLinks(
-          onLanguageChanged: (locale) {
-            // Mettre à jour le locale
-          } 
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Container(
+                  width: 100,
+                  height: 10.0,
+                  decoration: BoxDecoration(
+                    gradient: _colorAnimation.value,
+                  ),
+                );
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                    AppLocalizations.of(context)?.consulat ?? '',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 24, 94),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Mulish',
+                    ),
+                  ),
+            ),
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Container(
+                  width: 150,
+                  height: 8.0,
+                  decoration: BoxDecoration(
+                    gradient: _colorAnimation.value,
+                  ),
+                );
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                    AppLocalizations.of(context)?.ambassade ?? '',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 24, 94),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Mulish',
+                    ),
+                  ),
+            ),
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Container(
+                  width: 200,
+                  height: 6.0,
+                  decoration: BoxDecoration(
+                    gradient: _colorAnimation.value,
+                  ),
+                );
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                    AppLocalizations.of(context)?.venir ?? '',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color:Color.fromARGB(255, 0, 24, 94),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Mulish',
+                    ),
+                  ),
+            ),
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Container(
+                  width: 250,
+                  height: 4.0,
+                  decoration: BoxDecoration(
+                    gradient: _colorAnimation.value,
+                  ),
+                );
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                    AppLocalizations.of(context)?.decouvrir ?? '',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 24, 94),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Mulish',
+                    ),
+                  ),
+            ),
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Container(
+                  width: 300,
+                  height: 2.0,
+                  decoration: BoxDecoration(
+                    gradient: _colorAnimation.value,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-      )
+      ),
     );
   }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }
+
+
+
+
+
+
+
+

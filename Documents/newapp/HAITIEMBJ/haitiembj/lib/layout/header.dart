@@ -55,7 +55,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
         bottom: 5,
       ),
       padding: const EdgeInsets.only(
-        top: 1, // Reduced from 20 to 10
+        top: 1, 
         bottom: 5,
       ),
       decoration: const BoxDecoration(
@@ -69,7 +69,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
          
             TextButton(
               onPressed: () {
-                widget.onLanguageChanged(const Locale('ht', 'HT')); // Remplacez par la langue souhaitée
+                widget.onLanguageChanged(const Locale('ht', 'HT')); 
               },
               child: Text(
                 localizations?.kreyol ?? '',
@@ -79,7 +79,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
             ),
               TextButton(
               onPressed: () {
-                widget.onLanguageChanged(const Locale('fr', 'FR')); // Remplacez par la langue souhaitée
+                widget.onLanguageChanged(const Locale('fr', 'FR')); 
               },
                 child: Text(
                   localizations?.francais ?? '',
@@ -369,7 +369,6 @@ class _NavigationLinksState extends State<NavigationLinks> {
     child: submenu.isEmpty
         ? GestureDetector(
             onTap: () {
-              // Ajouter la redirection vers MyHomePage() pour le cas "accueil"
               if (item == 'accueil') {
                 Navigator.push(
                   context,
@@ -398,7 +397,6 @@ class _NavigationLinksState extends State<NavigationLinks> {
               setState(() {
                 selectedIndex = index;
               });
-              // Reste du code pour les autres cas de redirection
                 if (value == 'investhaiti') {
                     Navigator.push(
                     context,

@@ -6,6 +6,9 @@ class Carousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.width < 600 ? 600.0 : 1200.0;
+    
     final List<String> imgList = [
       'assets/announcement/Annoncepublic.jpeg',
       'assets/announcement/annonce2.jpeg'
@@ -13,10 +16,10 @@ class Carousel extends StatelessWidget {
 
     return CarouselSlider(
       options: CarouselOptions(
-        height: 1200.0, // Hauteur du carrousel
+        height: height,
         viewportFraction: 1.0,
         autoPlay: true,
-        aspectRatio: 2.0, // Ratio de l'image
+        aspectRatio: 2.0,
         autoPlayInterval: const Duration(seconds: 5),
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,

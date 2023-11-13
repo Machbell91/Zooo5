@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 
 class AnimatedSlider extends StatefulWidget {
-  const AnimatedSlider({super.key});
+  const AnimatedSlider({super.key, required int height, required int width});
 
   @override
   _AnimatedSliderState createState() => _AnimatedSliderState();
@@ -54,7 +54,7 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
     return Column(
       children: [
         Container(
-          height: 300,
+          height: MediaQuery.of(context).size.width < 600 ? 250 : 300,
           width: 1300,
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
@@ -73,7 +73,7 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
             allowImplicitScrolling: true,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -121,47 +121,52 @@ class _AnimatedSliderState extends State<AnimatedSlider> {
     }
 
     return Row(
-      children: [
-        Image.network(imagePath),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Text(
-                  getTitle(context, index), 
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                height: 1,
-                color: const Color.fromARGB(255, 0, 0, 0),
-                width: 100,
-              ),
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Text(
-                  getText(context, index),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-            ],
+  children: [
+    Image.network(
+    imagePath,
+    width: MediaQuery.of(context).size.width < 600 ? 250 : null,
+    ),
+    const SizedBox(width: 30),
+Expanded(
+  flex: 3,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Text(
+          getTitle(context, index),
+          style: TextStyle(
+            color: Color.fromARGB(255, 0, 0, 0),
+            fontSize: MediaQuery.of(context).size.width < 600 ? 13 : 30,
+            fontWeight: FontWeight.bold,
           ),
         ),
-      ],
-    );
+      ),
+      const SizedBox(height: 10),
+      Container(
+        height: 1,
+        color: const Color.fromARGB(255, 0, 0, 0),
+        width: 100,
+      ),
+      const SizedBox(height: 30),
+      Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: Text(
+          getText(context, index),
+          style: TextStyle(
+            color: Color.fromARGB(255, 0, 0, 0),
+            fontSize: MediaQuery.of(context).size.width < 600 ? 11 : 20,
+          ),
+          textAlign: TextAlign.justify,
+        ),
+      ),
+    ],
+  ),
+),
+],
+);
+
   }
 
   String getTitle(BuildContext context, int index) {
