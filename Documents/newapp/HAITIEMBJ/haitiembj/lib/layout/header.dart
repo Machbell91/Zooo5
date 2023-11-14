@@ -307,7 +307,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
   }
 }
 class NavigationLinks extends StatefulWidget {
-  const NavigationLinks({Key? key, required Null Function(dynamic locale) onLanguageChanged}) : super(key: key);
+  const NavigationLinks({super.key, required Null Function(dynamic locale) onLanguageChanged});
 
   @override
   _NavigationLinksState createState() => _NavigationLinksState();
@@ -373,7 +373,7 @@ class _NavigationLinksState extends State<NavigationLinks> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyHomePage(onComplete: (lang) {  }, onLanguageChanged: (locale) {  }, locale: Locale('fr','FRA'),),
+                    builder: (context) => MyHomePage(onComplete: (lang) {  }, onLanguageChanged: (locale) {  }, locale: const Locale('fr','FRA'),),
                   ),
                 );
               } else {

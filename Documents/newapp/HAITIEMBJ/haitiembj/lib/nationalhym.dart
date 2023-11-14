@@ -10,10 +10,10 @@ class NationalHymnPages extends StatefulWidget {
   final Locale locale;
 
   const NationalHymnPages({
-    Key? key, 
+    super.key, 
     required this.onLanguageChanged,
     required this.locale,
-  }) : super(key: key);
+  });
 
   @override
   _NationalHymnPagesState createState() => _NationalHymnPagesState();
@@ -21,9 +21,9 @@ class NationalHymnPages extends StatefulWidget {
 
 class _NationalHymnPagesState extends State<NationalHymnPages> {
 
-  YoutubePlayerController _controller = YoutubePlayerController(
+  final YoutubePlayerController _controller = YoutubePlayerController(
     initialVideoId: 'https://youtu.be/bvMjjsMCKyo?si=BjGNJ2wG4eRmpNYj&t=14', 
-    flags: YoutubePlayerFlags(
+    flags: const YoutubePlayerFlags(
       autoPlay: false,
     ),
   );

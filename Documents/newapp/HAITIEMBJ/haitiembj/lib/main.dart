@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:haitiembj/consularservice.dart' as ConsularService;
+import 'package:haitiembj/consularservice.dart';
+import 'package:haitiembj/haitienbref.dart';
 import 'package:haitiembj/layout/header.dart';
 import 'package:haitiembj/layout/footer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'ambassador.dart';
+import 'contactus.dart';
+import 'flagcoat.dart';
+import 'invest.dart';
 import 'mobilehomepage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './layout/urganncmnt.dart';
 import './layout/mainslider.dart';
 import './layout/listingarticle.dart';
+import 'nationalhym.dart';
+
+
+
+
+
+
+
 int selectedIndex = 0;
 
 void onSelected(int index) {
@@ -337,17 +353,29 @@ class NarrowLayout extends StatefulWidget {
   State<NarrowLayout> createState() => _NarrowLayoutState();
 }
 
+final Map<String, List<String>> textChoiceMappings = {
+  'Consulat': ['titreconsulat0', 'titreconsulat1', 'titreconsulat2', 'titreconsulat3', 'titreconsulat4', 'titreconsulat5', 'titreconsulat6', 'titreconsulat7', 'titreconsulat8', 'titreconsulat9'],
+  'Ambassade': ['ambassador', 'contactus'],
+  'Venir': ['investhaiti', 'investors'],
+  'Découvrir': ['flagcoat1', 'nationalhymn', 'haitienbref'],
+};
+
+String clickedText = '';
+bool showAlternativeChoices = false;
+List<String> alternativeChoicesText = [];
+
 class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Alignment> _alignmentAnimation;
   late Animation<LinearGradient> _colorAnimation;
+  final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     super.initState();
 
     _animationController = AnimationController(
-      duration: const Duration(seconds:15),
+      duration: const Duration(seconds: 15),
       vsync: this,
     );
 
@@ -357,9 +385,9 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
     ).animate(_animationController);
 
     _colorAnimation = LinearGradientTween(
-      begin: LinearGradient(colors: [const Color.fromARGB(255, 219, 37, 24)!, const Color.fromARGB(255, 241, 241, 240)!]),
-      end: LinearGradient(colors: [const Color.fromARGB(255, 247, 247, 247)!, const Color.fromARGB(255, 59, 82, 255)!]),
-    ).animate(_animationController) as Animation<LinearGradient>;
+      begin: const LinearGradient(colors: [Color.fromARGB(255, 219, 37, 24), Color.fromARGB(255, 241, 241, 240)]),
+      end: const LinearGradient(colors: [Color.fromARGB(255, 247, 247, 247), Color.fromARGB(255, 59, 82, 255)]),
+    ).animate(_animationController);
 
     _animationController.repeat();
   }
@@ -369,7 +397,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(255, 189, 189, 189),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -421,19 +449,26 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
                 );
               },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                    AppLocalizations.of(context)?.consulat ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 24, 94),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Mulish',
-                    ),
+            GestureDetector(
+              onTap: () {
+                _onTextClick('Consulat');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  AppLocalizations.of(context)?.consulat ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 24, 94),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Mulish',
                   ),
+                ),
+              ),
             ),
+            if (showAlternativeChoices && clickedText == 'Consulat')
+              ...displayAlternativeChoices(),
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
@@ -446,19 +481,26 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
                 );
               },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                    AppLocalizations.of(context)?.ambassade ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 24, 94),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Mulish',
-                    ),
+            GestureDetector(
+              onTap: () {
+                _onTextClick('Ambassade');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  AppLocalizations.of(context)?.ambassade ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 24, 94),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Mulish',
                   ),
+                ),
+              ),
             ),
+            if (showAlternativeChoices && clickedText == 'Ambassade')
+              ...displayAlternativeChoices(),
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
@@ -471,19 +513,26 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
                 );
               },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                    AppLocalizations.of(context)?.venir ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color:Color.fromARGB(255, 0, 24, 94),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Mulish',
-                    ),
+            GestureDetector(
+              onTap: () {
+                _onTextClick('Venir');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  AppLocalizations.of(context)?.venir ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 24, 94),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Mulish',
                   ),
+                ),
+              ),
             ),
+            if (showAlternativeChoices && clickedText == 'Venir')
+              ...displayAlternativeChoices(),
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
@@ -496,19 +545,26 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
                 );
               },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                    AppLocalizations.of(context)?.decouvrir ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 24, 94),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Mulish',
-                    ),
+            GestureDetector(
+              onTap: () {
+                _onTextClick('Découvrir');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  AppLocalizations.of(context)?.decouvrir ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 24, 94),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Mulish',
                   ),
+                ),
+              ),
             ),
+            if (showAlternativeChoices && clickedText == 'Découvrir')
+              ...displayAlternativeChoices(),
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
@@ -526,12 +582,102 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
       ),
     );
   }
+
+  void _onTextClick(String text) {
+    clickedText = text;
+    showAlternativeChoices = true;
+    alternativeChoicesText = textChoiceMappings[text]!;
+    setState(() {});
+  }
+
+List<Widget> displayAlternativeChoices() {
+  return alternativeChoicesText.map((choiceText) {
+    String translatedText = AppLocalizations.of(context)?.translateNavigationItem(choiceText) ?? choiceText;
+
+    return GestureDetector(
+      onTap: () {
+        // Ajoutez ici la logique spécifique pour chaque élément du sous-menu
+        if (choiceText == 'investhaiti') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => InvestPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+        } else if (choiceText == 'ambassador') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AmbadorPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+        } else if (choiceText == 'contactus') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ContactusPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+        } else if (choiceText == 'flagcoat1') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FlagcoatPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+        } else if (choiceText == 'nationalhymn') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NationalHymnPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+        } else if (choiceText == 'haitienbref') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HaitienBrefPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+        } else if (choiceText == 'investors') {
+          launchUrl(Uri.parse("https://cfihaiti.com/index.php/fr/"));
+        } else if (choiceText.startsWith("titreconsulat")) {               
+          ConsularService.Article article = ConsularService.Article(
+            titleKey: choiceText, 
+            summaryKey: choiceText, 
+            imgPath: '',
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InformationPages(
+                article: article,
+                onLanguageChanged: (_) {}, 
+                locale: const Locale("fr", "FR"),
+              )  
+            )
+          );
+        }
+      },
+      child: Text(
+        translatedText,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Color.fromARGB(255, 0, 24, 94),
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Mulish',
+        ),
+      ),
+    );
+  }).toList();
+}
+
+
+
+String _translate(String key) {
+  switch (key) {
+    case 'accueil':
+      return AppLocalizations.of(context)?.accueil ?? key;
+    case 'actualite':
+      return AppLocalizations.of(context)?.actualite ?? key;
+    
+    default:
+      return key;
+  }
 }
 
 
 
 
 
-
-
+}
 

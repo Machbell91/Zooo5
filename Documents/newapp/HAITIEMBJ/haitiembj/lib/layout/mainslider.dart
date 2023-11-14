@@ -137,7 +137,7 @@ Expanded(
         child: Text(
           getTitle(context, index),
           style: TextStyle(
-            color: Color.fromARGB(255, 0, 0, 0),
+            color: const Color.fromARGB(255, 0, 0, 0),
             fontSize: MediaQuery.of(context).size.width < 600 ? 13 : 30,
             fontWeight: FontWeight.bold,
           ),
@@ -155,7 +155,7 @@ Expanded(
         child: Text(
           getText(context, index),
           style: TextStyle(
-            color: Color.fromARGB(255, 0, 0, 0),
+            color: const Color.fromARGB(255, 0, 0, 0),
             fontSize: MediaQuery.of(context).size.width < 600 ? 11 : 20,
           ),
           textAlign: TextAlign.justify,

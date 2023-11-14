@@ -22,11 +22,11 @@ class InformationPages extends StatefulWidget {
   final Locale locale;
 
   const InformationPages({
-    Key? key,
+    super.key,
     required this.article,
     required this.onLanguageChanged,
     required this.locale,
-  }) : super(key: key);
+  });
 
   @override
   _InformationPagesState createState() => _InformationPagesState();
@@ -152,7 +152,7 @@ Widget build(BuildContext context) {
             ),
           ),
         ),
-        Footer(),
+        const Footer(),
       ],
     ),
   );

@@ -11,10 +11,10 @@ class ContactusPages extends StatefulWidget {
   final Locale locale;
 
   const ContactusPages({
-    Key? key,
+    super.key,
     required this.onLanguageChanged,
     required this.locale,
-  }) : super(key: key);
+  });
 
   @override
   _ContactusPagesState createState() => _ContactusPagesState();
@@ -85,7 +85,7 @@ class _ContactusPagesState extends State<ContactusPages> {
                                     const Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 370.0),
                                     child: Text(
-                                      "No. 38 Kowa Building, Room 906\n\n\ 4-12-24, Nishi-Azabu, Minato-ku\n\n\ Tokyo 106-0031",
+                                      "No. 38 Kowa Building, Room 906\n\n 4-12-24, Nishi-Azabu, Minato-ku\n\n Tokyo 106-0031",
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(fontSize: 16.0),
                                     ),
@@ -174,8 +174,8 @@ class _ContactusPagesState extends State<ContactusPages> {
                                     onTap: () {
                                       launchUrl(Uri.parse("https://www.facebook.com/haitijapan"));
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 370.0),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 370.0),
                                       child: Icon(Icons.facebook),
                                     ),
                                   ),
@@ -184,8 +184,8 @@ class _ContactusPagesState extends State<ContactusPages> {
                                     onTap: () {
                                       launchUrl(Uri.parse("https://twitter.com/AmbHaitiJapon"));
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 370.0),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 370.0),
                                       child: Icon(FontAwesomeIcons.twitter),
                                     ),
                                   ),
@@ -194,8 +194,8 @@ class _ContactusPagesState extends State<ContactusPages> {
                                     onTap: () {
                                       launchUrl(Uri.parse("https://www.instagram.com/ambassadehaitijapon/"));
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 370.0),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 370.0),
                                       child: Icon(FontAwesomeIcons.instagram),
                                     ),
                                   ),
