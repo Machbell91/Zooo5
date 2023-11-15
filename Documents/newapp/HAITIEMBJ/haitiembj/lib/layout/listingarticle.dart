@@ -349,9 +349,9 @@ Widget build(BuildContext context) {
                   ],
                 ),
               ),
-              const Align(
+              Align(
                   alignment: Alignment.bottomCenter,
-                  child: Footer(),
+                  child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),
                 ),
             ],
           ),

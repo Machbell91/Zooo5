@@ -19,8 +19,48 @@ class HaitienBrefPages extends StatefulWidget {
 
 class _HaitienBrefPagesState extends State<HaitienBrefPages> {
 
+  void onComplete(Locale newLocale) {}
+
   @override
   Widget build(BuildContext context) {
+    
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset(
+                  '/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/images/haiti.png',
+                  width: 600,
+                  height: 700,
+                  alignment: Alignment.topCenter,
+                            ),
+                  const SizedBox(height: 50.0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      AppLocalizations.of(context)?.haitibref0 ?? '',
+                      style: TextStyle(fontSize: 14.0),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                const SizedBox(height: 75.0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                    child: Text(
+                      AppLocalizations.of(context)?.haitibref1 ?? '',
+                      style: TextStyle(fontSize: 14.0),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  const SizedBox(height: 75.0),
+                ],
+              ),
+            ),
+          );
+    } else {
     return Scaffold(
       body: Column(
         children: [      
@@ -33,7 +73,6 @@ class _HaitienBrefPagesState extends State<HaitienBrefPages> {
             width: double.infinity,
             height: 400,
           ),
-
           Expanded(
             child: ListView(
               children: [             
@@ -92,15 +131,14 @@ class _HaitienBrefPagesState extends State<HaitienBrefPages> {
               ],             
             ),           
           ),         
-          const Align(      
+          Align(      
             alignment: Alignment.bottomCenter,         
-            child: Footer(),         
+            child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),         
           ),       
         ],      
       ),     
     );   
   }
-
-  void onComplete(Locale newLocale) {}
-
+});
+}
 }

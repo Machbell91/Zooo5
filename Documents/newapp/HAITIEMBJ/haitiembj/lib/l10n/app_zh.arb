@@ -85,5 +85,16 @@
   "flagcoat1":"国徽",
   "nationalhymn":"国歌",
   "haitienbref":"海地特点",
+  "ambassador": "大使",
+  "contactus": "联系我们",
+  "bottomrights": "© 2024 海地驻日本大使馆，东京。保留所有权利。",
+  "confidentialite": "保密性",
+  "politiqueConfidentialite": "隐私政策",
+  "gestionCookies": "Cookie 管理",
+  "accessibiliteNonConforme": "无障碍性: 不符合",
+  "outils": "工具",
+  "augmenterDiminuerPolice": "增加/减少字体大小",
+  "liensInstitutionnels": "机构链接",
+  "mentionsLegales": "法律声明",
 
 }

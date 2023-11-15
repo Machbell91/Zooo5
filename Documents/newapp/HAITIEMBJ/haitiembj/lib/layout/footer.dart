@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends StatefulWidget {
-  const Footer({super.key});
+  final Function(Locale) onLanguageChanged;
+  final Locale locale;
+
+  const Footer({
+    Key? key,
+    required this.onLanguageChanged,
+    required this.locale,
+  }) : super(key: key);
 
   @override
   _FooterState createState() => _FooterState();
@@ -24,7 +33,7 @@ class _FooterState extends State<Footer> {
                   _isFooterVisible = !_isFooterVisible;
                 });
               },
-              child: Text(_isFooterVisible ? 'Cacher le pied de page' : 'Afficher le pied de page'),
+              child: Text(_isFooterVisible ? 'Masquer' : 'Afficher'),
             ),
             Visibility(
               visible: _isFooterVisible,
@@ -34,52 +43,67 @@ class _FooterState extends State<Footer> {
                   padding: const EdgeInsets.all(5.0),
                   child: SingleChildScrollView(
                     scrollDirection: screenWidth < 1200 ? Axis.horizontal : Axis.vertical,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(minWidth: constraints.maxWidth),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHoverableColumn(
-                            context,
-                            "Haïti Au Japon",
-                            ["Liens utiles", "Contactez-nous", "Mentions légales", "Plan du site"],
-                            '/liens_utiles',
-                          ),
-                          const SizedBox(width: 40),
-                          _buildHoverableColumn(
-                            context,
-                            "Confidentialité",
-                            ["Politique de confidentialité", "Gestion des cookies", "Accessibilité : non conforme"],
-                            '/politique_confidentialite',
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/outils');
-                            },
-                            child: Center(
-                              child: Image.asset(
-                                '/Users/matthiaspierre/Documents/newapp/finalapp/assets/footer.png',
-                                height: 120,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 40),
-                          _buildHoverableColumn(
-                            context,
-                            "Outils",
-                            ["Augmenter/diminuer police", "S’inscrire aux flux RSS"],
-                            '/outils',
-                          ),
-                          const SizedBox(width: 40),
-                          _buildHoverableColumn(
-                            context,
-                            "Liens institutionnels",
-                            ["france.fr", "service-public.fr", "gouvernement.fr", "data.gouv.fr", "legifrance.gouv.fr", "diplomatie.gouv.fr"],
-                            '/liens_institutionnels',
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _columnWithImage(context),
+              
+                        _buildHoverableColumn(
+                          context,
+                          AppLocalizations.of(context)?.haitiAuJapon ?? '',
+                          [
+                            AppLocalizations.of(context)?.contactus ?? '',
+                            AppLocalizations.of(context)?.mentionsLegales ?? '',
+                          ],
+                          '/liens_utiles',
+                        ),
+                     
+                        _buildHoverableColumn(
+                          context,
+                          AppLocalizations.of(context)?.confidentialite ?? '',
+                          [
+                            AppLocalizations.of(context)?.politiqueConfidentialite ?? '',
+                            AppLocalizations.of(context)?.gestionCookies ?? '',
+                            AppLocalizations.of(context)?.accessibiliteNonConforme ?? '',
+                          ],
+                          '/politique_confidentialite',
+                        ),
+                       
+                        _buildHoverableColumn(
+                          context,
+                          AppLocalizations.of(context)?.outils ?? '',
+                          [
+                            AppLocalizations.of(context)?.augmenterDiminuerPolice ?? '',
+                          ],
+                          '/outils',
+                        ),
+                       
+                        _buildHoverableColumn(
+                          context,
+                          AppLocalizations.of(context)?.liensInstitutionnels ?? '',
+                          [
+                            "http://www.gouv.ht/",
+                            "http://www.primature.gouv.ht/",
+                            "http://www.maeci.gouv.ht/",
+                            "http://www.mef.gouv.ht/",
+                            "http://www.justice.gouv.ht/",
+                          ],
+                          '/liens_institutionnels',
+                        ),
+                       
+                        _buildHoverableColumn(
+                          context,
+                          AppLocalizations.of(context)?.liensInstitutionnels ?? '',
+                          [
+                            "http://www.mtpc.gouv.ht/",
+                            "http://www.mdi.gouv.ht/",
+                            "http://www.culture.gouv.ht/",
+                            "http://www.menfp.gouv.ht/",
+                            "http://www.mhave.gouv.ht/",
+                          ],
+                          '/liens_institutionnels_2',
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -91,21 +115,42 @@ class _FooterState extends State<Footer> {
     );
   }
 
+  Widget _columnWithImage(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/outils');
+          },
+          child: Container(
+            alignment: Alignment.center,
+            child: Image.asset(
+              'assets/images/ht.png',
+              height: 120,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildHoverableColumn(
     BuildContext context,
     String title,
     List<String> items,
     String route,
   ) {
+    List<String> first5Items = items.take(5).toList();
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         InkWell(
           onTap: () {
             Navigator.pushNamed(context, route);
           },
           child: MouseRegion(
-            cursor: SystemMouseCursors.click,
             child: Text(
               title,
               style: const TextStyle(
@@ -117,39 +162,41 @@ class _FooterState extends State<Footer> {
         ),
         const SizedBox(height: 10),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: items.map((item) {
-            bool isHovering = false;
-            bool isClicked = false;
-
-            return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return Column(
-                  children: [
-                    MouseRegion(
-                      onEnter: (_) => setState(() => isHovering = true),
-                      onExit: (_) => setState(() => isHovering = false),
-                      child: GestureDetector(
-                        onTapDown: (_) => setState(() => isClicked = true),
-                        onTapUp: (_) => setState(() => isClicked = false),
-                        onTapCancel: () => setState(() => isClicked = false),
-                        child: Text(
-                          item,
-                          style: TextStyle(
-                            color: isClicked ? Colors.red : (isHovering ? Colors.blue : Colors.black),
-                            decoration: isClicked ? TextDecoration.underline : TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 9),
-                  ],
-                );
-              },
-            );
-          }).toList(),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: _buildItemWidgets(context, first5Items),
         ),
       ],
     );
+  }
+
+  List<Widget> _buildItemWidgets(BuildContext context, List<String> items) {
+    return items.map((item) {
+      return Column(
+        children: [
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              child: Text(
+                item,
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              onTap: () => _launchURL(item),
+            ),
+          ),
+          const SizedBox(height: 5),
+        ],
+      );
+    }).toList();
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

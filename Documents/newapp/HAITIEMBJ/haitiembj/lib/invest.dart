@@ -19,8 +19,37 @@ class InvestPages extends StatefulWidget {
 
 class _InvestPagesState extends State<InvestPages> {
 
+  void onComplete(Locale newLocale) {}
+  
   @override
   Widget build(BuildContext context) {
+
+double screenWidth = MediaQuery.of(context).size.width;
+
+  if (screenWidth < 600) {
+    return Scaffold(
+      body: Center(
+        child: ListView(
+          children: [
+            Image.asset(
+              'assets/slogocolor.png',
+              width: 75,
+              height: 75,
+            ),
+            const SizedBox(height: 75.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal:50.0),
+              child: Text(
+                AppLocalizations.of(context)?.investinhaititxt ?? '',
+                textAlign: TextAlign.justify,
+                style: const TextStyle(fontSize: 13), 
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  } else {
     return Scaffold(
       body: Column(
         children: [      
@@ -63,9 +92,7 @@ class _InvestPagesState extends State<InvestPages> {
                               height: 50,
                               
                             ),
-                            
                             const SizedBox(height: 100.0),
-                            
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 370.0),
                               child: Text(
@@ -85,15 +112,13 @@ class _InvestPagesState extends State<InvestPages> {
               ],             
             ),           
           ),         
-          const Align(      
+          Align(      
             alignment: Alignment.bottomCenter,         
-            child: Footer(),         
+            child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),         
           ),       
         ],      
       ),     
-    );   
+    );
+  }   
   }
-
-  void onComplete(Locale newLocale) {}
-
 }

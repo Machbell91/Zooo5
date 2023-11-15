@@ -19,9 +19,43 @@ class FlagcoatPages extends StatefulWidget {
 
 class _FlagcoatPagesState extends State<FlagcoatPages> {
 
+  void onComplete(Locale newLocale) {}
+  
   @override
   Widget build(BuildContext context) {
+
+  double screenWidth = MediaQuery.of(context).size.width;
+
+  if (screenWidth < 600) {
     return Scaffold(
+      body: Center(
+        child: ListView(
+          children: [
+            Image.asset(
+              'assets/slogocolor.png',
+              width: 75,
+              height: 75,
+            ),
+            const SizedBox(height: 75.0),
+                  Image.asset(
+                  'assets/flaghaiti.png',  
+                    width: 150, 
+                    height: 200,
+            ),
+            const SizedBox(height: 50.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal:50.0),
+              child: Text(
+                AppLocalizations.of(context)?.flagcoat ?? '', 
+                textAlign: TextAlign.justify,
+                style: const TextStyle(fontSize: 14), 
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  } else { return Scaffold(
       body: Column(
         children: [      
           Header(
@@ -62,17 +96,13 @@ class _FlagcoatPagesState extends State<FlagcoatPages> {
                               height: 300,
                               
                             ),
-                            
                             const SizedBox(height: 100.0),
-                            
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 370.0),
                               child: Text(
                                 textAlign: TextAlign.justify,
                                 AppLocalizations.of(context)?.flagcoat ?? '', 
-                                
                                 style: const TextStyle(fontSize: 18.0),
-                                
                               ),
                             ),
                           ],                          
@@ -84,15 +114,13 @@ class _FlagcoatPagesState extends State<FlagcoatPages> {
               ],             
             ),           
           ),         
-          const Align(      
+          Align(      
             alignment: Alignment.bottomCenter,         
-            child: Footer(),         
+            child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),        
           ),       
         ],      
       ),     
     );   
   }
-
-  void onComplete(Locale newLocale) {}
-
+}
 }

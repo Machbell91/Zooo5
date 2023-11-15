@@ -18,9 +18,42 @@ class AmbadorPages extends StatefulWidget {
 }
 
 class _AmbadorPagesState extends State<AmbadorPages> {
+  
+  void onComplete(Locale newLocale) {}
 
   @override
   Widget build(BuildContext context) {
+
+    
+  double screenWidth = MediaQuery.of(context).size.width;
+
+  if (screenWidth < 600) {
+    
+    // Version mobile 
+    return Scaffold(
+      body: Column(
+        children: [
+        const SizedBox(height: 20.0),
+        Image.asset(
+        '/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/slogocolor.png', 
+        fit: BoxFit.cover, 
+        width: 50, 
+        height: 50,
+        ),
+        const SizedBox(height: 75.0),
+        Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+        child: Text(
+        textAlign: TextAlign.justify,
+        AppLocalizations.of(context)?.ambadortxt ?? '', 
+        style: const TextStyle(fontSize: 13.0),
+            ),
+          ),
+          const SizedBox(height: 75.0),
+        ],
+      ),
+    );
+  } else {
     return Scaffold(
       body: Column(
         children: [      
@@ -33,7 +66,6 @@ class _AmbadorPagesState extends State<AmbadorPages> {
             width: double.infinity,
             height: 400,
           ),
-
           Expanded(
             child: ListView(
               children: [             
@@ -85,15 +117,16 @@ class _AmbadorPagesState extends State<AmbadorPages> {
               ],             
             ),           
           ),         
-          const Align(      
+          Align(      
             alignment: Alignment.bottomCenter,         
-            child: Footer(),         
+            child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),       
           ),       
         ],      
       ),     
     );   
   }
 
-  void onComplete(Locale newLocale) {}
 
+
+}
 }

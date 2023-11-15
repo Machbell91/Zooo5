@@ -21,8 +21,143 @@ class ContactusPages extends StatefulWidget {
 }
 
 class _ContactusPagesState extends State<ContactusPages> {
+  
+  void onComplete(Locale newLocale) {
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+  if (screenWidth < 600) {
+
+    return Scaffold(
+      body: Center(
+        child: ListView(
+            children: [
+              Image.asset(
+                '/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/slogocolor.png',
+                width: 75,
+                height: 75,  
+              ),
+              const SizedBox(height: 75),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  AppLocalizations.of(context)?.adresseamb ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal:50.0),
+                child: Text( 
+                  "No. 38 Kowa Building, Room 906\n\n 4-12-24, Nishi-Azabu, Minato-ku\n\n Tokyo 106-0031",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14),  
+                ),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  AppLocalizations.of(context)?.telamb ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  "(+81) 3-3486-7096",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  AppLocalizations.of(context)?.faxamb ?? '',
+                  textAlign: TextAlign.center, 
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  "(+81) 3-3486-7070",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14),  
+                ),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  AppLocalizations.of(context)?.eemailamb ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ), 
+              const SizedBox(height: 10),           
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  "amb.japon@diplomatie.ht",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),          
+              const SizedBox(height: 30),           
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  AppLocalizations.of(context)?.opngamb0 ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),           
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:50.0),
+                child: Text(
+                  AppLocalizations.of(context)?.opngamb1 ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14),  
+                ),
+              ),         
+              const SizedBox(height: 30),          
+              GestureDetector(
+                onTap: () {
+                  launchUrl(Uri.parse("https://www.facebook.com/haitijapan")); 
+                },
+                child: const Icon(FontAwesomeIcons.facebook)
+              ),          
+              const SizedBox(height: 10),         
+              GestureDetector(  
+                onTap: () {
+                  launchUrl(Uri.parse("https://twitter.com/AmbHaitiJapon"));
+                },
+                child: const Icon(FontAwesomeIcons.twitter),
+              ),          
+              const SizedBox(height: 10),          
+              GestureDetector(
+                onTap: () {
+                  launchUrl(Uri.parse("https://www.instagram.com/ambassadehaitijapon/"));
+                }, 
+                child: const Icon(FontAwesomeIcons.instagram),
+              ),
+            const SizedBox(height: 75),
+            ],
+          ),
+      ),
+    );
+  } else {  
     return Scaffold(
       body: ConstrainedBox(
         constraints: BoxConstraints(
@@ -234,16 +369,14 @@ class _ContactusPagesState extends State<ContactusPages> {
                 ],
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.bottomCenter,
-              child: Footer(),
+              child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),
             ),
           ],
         ),
       ),
     );
   }
-
-  void onComplete(Locale newLocale) {
-  }
+}
 }

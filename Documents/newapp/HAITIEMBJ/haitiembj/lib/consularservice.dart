@@ -97,6 +97,39 @@ class _InformationPagesState extends State<InformationPages> {
 @override
 Widget build(BuildContext context) {
 
+  double screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth < 600) {
+
+      // Version mobile
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 20.0),
+              Image.asset(
+              '/Users/matthiaspierre/Documents/newapp/HAITIEMBJ/haitiembj/assets/slogocolor.png', 
+              fit: BoxFit.cover, 
+              width: 75, 
+              height: 75,
+              ),
+              const SizedBox(height: 75.0),
+              Padding(
+              padding: const EdgeInsets.symmetric(horizontal:50.0),
+              child: Text(
+              textAlign: TextAlign.justify,
+              getSum(context, widget.article.summaryKey),
+              style: const TextStyle(fontSize: 13.0),
+                ),
+              ),
+              const SizedBox(height: 75.0),
+            ],
+          ),
+        )
+      );
+
+    } else {
+
   double screenHeight = MediaQuery.of(context).size.height;
   int increasedHeight = screenHeight.round() * 2;
 
@@ -140,7 +173,7 @@ Widget build(BuildContext context) {
                             ),
                    const SizedBox(height: 100.0),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:380.0),
+                    padding: const EdgeInsets.symmetric(horizontal:180.0),
                     child: Text(
                                     textAlign: TextAlign.justify,
                                     getSum(context, widget.article.summaryKey),
@@ -152,9 +185,10 @@ Widget build(BuildContext context) {
             ),
           ),
         ),
-        const Footer(),
+        Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),
       ],
     ),
   );
+}
 }
 }

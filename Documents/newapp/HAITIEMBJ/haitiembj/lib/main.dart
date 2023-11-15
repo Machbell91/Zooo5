@@ -314,9 +314,9 @@ class WideLayout extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.bottomCenter,
-                  child: Footer(),
+                  child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),
                 ),
               ],
             ),
@@ -596,7 +596,6 @@ List<Widget> displayAlternativeChoices() {
 
     return GestureDetector(
       onTap: () {
-        // Ajoutez ici la logique spécifique pour chaque élément du sous-menu
         if (choiceText == 'investhaiti') {
           Navigator.push(
             context,
@@ -651,8 +650,8 @@ List<Widget> displayAlternativeChoices() {
         translatedText,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: Color.fromARGB(255, 0, 24, 94),
-          fontSize: 18.0,
+          color: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
           fontFamily: 'Mulish',
         ),
@@ -674,10 +673,5 @@ String _translate(String key) {
       return key;
   }
 }
-
-
-
-
-
 }
 

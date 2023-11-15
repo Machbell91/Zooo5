@@ -69,9 +69,9 @@ class _MobileHomePageState extends State<MobileHomePage> {
       MaterialPageRoute(
         builder: (context) => NarrowLayout(
           onLanguageChanged: (locale) {
-            // Logique pour le changement de langue
+            
           },
-          locale: const Locale('fr', 'FR'), // Remplacez par la langue souhaitée
+          locale: const Locale('fr', 'FR'), 
         ),
       ),
     );
@@ -90,7 +90,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
               valueListenable: _selectedLanguageNotifier,
               builder: (context, value, child) {
                 return Text(
-                  appLocalizations?.mowbeel ?? '', // Utilisez appLocalizations ici
+                  appLocalizations?.mowbeel ?? '', 
                   locale: Locale(languageCodes[value]),
                   style: const TextStyle(
                     fontFamily: 'Inter',
@@ -151,15 +151,17 @@ class _MobileHomePageState extends State<MobileHomePage> {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(bottom: 10.0),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "© 2024 Ambassade d'Haïti au Japon, TOKYO. Tout Droit Réservé.",
-                ),
+                AppLocalizations.of(context)?.bottomrights?? '',
+                textAlign: TextAlign.justify,
+                style: const TextStyle(fontSize: 13), 
               ),
-            )
+              ),
+            ),
           ],
         ),
       ),

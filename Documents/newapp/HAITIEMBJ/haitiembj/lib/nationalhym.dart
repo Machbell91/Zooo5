@@ -27,8 +27,53 @@ class _NationalHymnPagesState extends State<NationalHymnPages> {
       autoPlay: false,
     ),
   );
+  void onComplete(Locale newLocale) {}
+
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+      if (screenWidth < 600) {
+        return Scaffold(
+          body: ListView(
+            children: [
+              Image.asset(
+              'assets/flaghaiti.png',
+              width: 75,
+              height: 100,
+                          ),
+          const SizedBox(height: 75.0),
+          YoutubePlayer(
+              controller: _controller,
+              showVideoProgressIndicator: true,
+              width: 300,
+              aspectRatio: 3/2, 
+           ),
+          const SizedBox(height: 75.0),
+          Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(
+                child: Text(
+                  AppLocalizations.of(context)?.hymnh ?? '',
+                  textAlign: TextAlign.justify,
+                ),  
+              ),              
+              Expanded(
+                child: Text(
+                  AppLocalizations.of(context)?.hymnt ?? '',
+                  textAlign: TextAlign.justify, 
+                ),
+              ),
+            ],
+          )
+        ],  
+      ),
+    );
+  } else {
     return Scaffold(
       body: Column(
         children: [
@@ -124,16 +169,14 @@ class _NationalHymnPagesState extends State<NationalHymnPages> {
             ),
           ),
           
-          const Align(
+          Align(
             alignment: Alignment.bottomCenter,
-            child: Footer(),
+            child: Footer(locale: Locale('fr','FRA'), onLanguageChanged: (Locale ) {  },),
           ),
           
         ],
       ),
     );
   }
-
-  void onComplete(Locale newLocale) {}
-  
+} 
 }
