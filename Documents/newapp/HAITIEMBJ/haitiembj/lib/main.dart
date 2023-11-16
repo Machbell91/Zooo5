@@ -5,8 +5,10 @@ import 'package:haitiembj/consularservice.dart';
 import 'package:haitiembj/haitienbref.dart';
 import 'package:haitiembj/layout/header.dart';
 import 'package:haitiembj/layout/footer.dart';
+import 'package:haitiembj/mobilearticle.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'ambassador.dart';
+import 'announcement.dart';
 import 'contactus.dart';
 import 'flagcoat.dart';
 import 'invest.dart';
@@ -292,7 +294,7 @@ class WideLayout extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(top: 1.0),
                 ),
-                const Expanded(
+                Expanded(
                   child: Row(
                     children: [
                       Expanded(
@@ -309,7 +311,7 @@ class WideLayout extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 6,
-                        child: Artika(locale: Locale('fr''FR'),),
+                        child: Artika(locale: Locale('fr''FR'), onLanguageChanged: (locale) {  },),
                       ),
                     ],
                   ),
@@ -329,7 +331,6 @@ class WideLayout extends StatelessWidget {
 
 
 //MOBILE VERSION
-
 
 class LinearGradientTween extends Tween<LinearGradient> {
   LinearGradientTween({required LinearGradient begin, required LinearGradient end})
@@ -396,40 +397,116 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color.fromARGB(255, 189, 189, 189),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Image.asset(
-                    'assets/flaghaiti.png',
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    AppLocalizations.of(context)?.mowbeel ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Image.asset(
-                    'assets/japanflag.png',
-                  ),
-                ),
-              ],
+  automaticallyImplyLeading: false,
+  backgroundColor: Color.fromARGB(255, 0, 0, 0),
+  title: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            fit: FlexFit.loose,
+            child: Image.asset(
+              'assets/flaghaiti.png',
+                    width: 60, 
+                    height: 180,
             ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              AppLocalizations.of(context)?.mowbeel ?? '',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            child: Image.asset(
+              'assets/japanflag.png',
+                    width: 50, 
+                    height: 100,
+            ),
+          ),
+        ],
+      ),
+    ],
+  ),
+  leading: Builder(
+    builder: (BuildContext context) {
+      return IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: () {
+          Scaffold.of(context).openDrawer();
+        },
+      );
+    },
+  ),
+),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.asset(
+                    'assets/slogocolor.png',
+                    height:127,
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 101, 108, 114),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                AppLocalizations.of(context)?.annoucement0 ?? '',
+                style: const TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+                ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                    MaterialPageRoute(builder: (context) => AnncmntmobPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          ); 
+              },
+            ),
+            ListTile(
+              title: Text(
+                AppLocalizations.of(context)?.actualite0 ?? '',
+                style: const TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+                ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                    MaterialPageRoute(builder: (context) => Artika2(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+              },
+            ),
+            /*ListTile(
+              title: Text('Option 3'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                    MaterialPageRoute(builder: (context) => InvestPages(key: key, onLanguageChanged: (locale) {}, locale: const Locale('fr', 'FR'))),
+          );
+              },
+            ),*/
           ],
         ),
       ),
@@ -456,7 +533,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-                  AppLocalizations.of(context)?.consulat ?? '',
+                 AppLocalizations.of(context)?.consulat ?? '',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 0, 24, 94),
@@ -488,7 +565,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-                  AppLocalizations.of(context)?.ambassade ?? '',
+                 AppLocalizations.of(context)?.ambassade ?? '',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 0, 24, 94),
@@ -582,6 +659,7 @@ class _NarrowLayoutState extends State<NarrowLayout> with TickerProviderStateMix
       ),
     );
   }
+
 
   void _onTextClick(String text) {
     clickedText = text;

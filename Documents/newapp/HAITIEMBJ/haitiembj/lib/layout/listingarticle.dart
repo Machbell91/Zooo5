@@ -27,7 +27,7 @@ class Artika extends StatefulWidget {
   final double maxHeight;
   final Locale locale;
 
-  const Artika({super.key, this.maxHeight = double.infinity, required this.locale});
+  const Artika({super.key, this.maxHeight = double.infinity, required this.locale, required Null Function(dynamic locale) onLanguageChanged});
 
   @override
   State<Artika> createState() => _ArtikaState();
