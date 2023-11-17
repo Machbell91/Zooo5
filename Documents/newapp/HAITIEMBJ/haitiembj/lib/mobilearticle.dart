@@ -487,7 +487,6 @@ return Scaffold(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        textAlign: TextAlign.justify,
                                         getTitle(context, widget.article.titleKey),
                                         style: const TextStyle(
                                           fontSize: 20.0,
